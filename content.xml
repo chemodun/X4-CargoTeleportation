@@ -12,49 +12,49 @@
     description="Research projects that let your own ships and stations in the same zone hand over cargo instantly, without docking or drones."></text>
   <!-- French -->
   <text language="33"
-    description=""></text>
+    description="Projets de recherche permettant à vos propres vaisseaux et stations situés dans la même zone de se transférer instantanément leur cargaison, sans amarrage ni drones."></text>
   <!-- Spanish -->
   <text language="34"
-    description=""></text>
+    description="Proyectos de investigación que permiten a tus propias naves y estaciones en la misma zona transferirse carga al instante, sin atracar ni usar drones."></text>
   <!-- Italian -->
   <text language="39"
-    description=""></text>
+    description="Progetti di ricerca che permettono alle tue navi e stazioni nella stessa zona di trasferirsi il carico all'istante, senza attracco né droni."></text>
   <!-- Czech -->
   <text language="42"
-    description=""></text>
+    description="Výzkumné projekty, které vašim lodím a stanicím ve stejné zóně umožní okamžitě předávat náklad bez přistání a bez dronů."></text>
   <!-- English -->
   <text language="44"
     description="Research projects that let your own ships and stations in the same zone hand over cargo instantly, without docking or drones."></text>
   <!-- Polish -->
   <text language="48"
-    description=""></text>
+    description="Projekty badawcze, które pozwalają twoim statkom i stacjom w tej samej strefie natychmiast przekazywać ładunek, bez dokowania i dronów."></text>
   <!-- German -->
   <text language="49"
-    description=""></text>
+    description="Forschungsprojekte, mit denen Ihre eigenen Schiffe und Stationen in derselben Zone Fracht sofort übergeben, ohne Andocken oder Drohnen."></text>
   <!-- Portuguese -->
   <text language="55"
-    description=""></text>
+    description="Projetos de pesquisa que permitem que suas próprias naves e estações na mesma zona entreguem carga instantaneamente, sem atracar nem usar drones."></text>
   <!-- Japanese -->
   <text language="81"
-    description=""></text>
+    description="同じ領域内にある自分の艦船とステーションが、ドッキングやドローンを使わずに貨物を瞬時に受け渡せるようになる研究プロジェクト。"></text>
   <!-- Korean -->
   <text language="82"
-    description=""></text>
+    description="같은 지역에 있는 자신의 함선과 스테이션이 도킹이나 드론 없이 화물을 즉시 주고받을 수 있게 해주는 연구 프로젝트입니다."></text>
   <!-- Chinese Simplified -->
   <text language="86"
-    description=""></text>
+    description="可让你在同一地区内的自有飞船和空间站无需停靠或无人机即可瞬间交接货物的研究项目。"></text>
   <!-- Chinese Traditional -->
   <text language="88"
-    description=""></text>
+    description="可讓你在同一地區內的自有飛船和空間站無需停靠或無人機即可瞬間交接貨物的研究項目。"></text>
   <!-- Turkish -->
   <text language="90"
-    description=""></text>
+    description="Aynı bölgedeki kendi gemilerinizin ve istasyonlarınızın kenetlenme veya dron olmadan anında kargo aktarmasını sağlayan araştırma projeleri."></text>
   <!-- Bulgarian -->
   <text language="359"
-    description=""></text>
+    description="Изследователски проекти, които позволяват на вашите собствени кораби и станции в една и съща зона да си предават товари мигновено, без скачване или дронове."></text>
   <!-- Ukrainian -->
   <text language="380"
-    description=""></text>
+    description="Дослідження, що дозволяють вашим власним кораблям і станціям в одній зоні миттєво передавати вантаж без стикування та дронів."></text>
   <dependency version="800"></dependency>
   <dependency id="ws_2042901274" optional="false" name="SirNukes Mod Support APIs" version="195"></dependency>
   <dependency id="ws_3715253556" optional="false" name="Options Helper" version="110"></dependency>

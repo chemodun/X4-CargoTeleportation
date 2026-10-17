@@ -13,15 +13,15 @@
       <t id="104">Tedarikçinin ışınlanma menziline girer, üretimi bekler ve füzeleri, dronları ve konuşlandırılabilir cihazları kargo ışınlanmasıyla teslim alır.</t>
 
       <!-- Research -->
-      <t id="201">Kargo Işınlanması - Menzil I</t>
+      <t id="201">Yükün Işınlanması - Menzil I</t>
       <t id="202">Işınlanmayı gemiler arasındaki kargoya uygular. Gemilerinizden ikisi aynı bölgedeyken ve aralarında en fazla 5 km varken kenetlenme, park etme veya dron olmadan kargo alışverişi yapar.</t>
-      <t id="211">Kargo Işınlanması - Menzil II</t>
+      <t id="211">Yükün Işınlanması - Menzil II</t>
       <t id="212">Gemiden gemiye kargo ışınlanmasını aynı bölgede 15 km'ye kadar uzaktaki ortaklara genişletir.</t>
-      <t id="221">Kargo Işınlanması - Menzil III</t>
+      <t id="221">Yükün Işınlanması - Menzil III</t>
       <t id="222">Gemiden gemiye kargo ışınlanmasını aynı bölgede 30 km'ye kadar uzaktaki ortaklara genişletir.</t>
-      <t id="231">Kargo Işınlanması - İstasyonlar</t>
+      <t id="231">Yükün Işınlanması - İstasyonlar</t>
       <t id="232">Gemileriniz kendi istasyonlarınızla kenetlenme veya dron olmadan ticaret yapar: gemi istasyonun bölgesine girer girmez kargo ışınlanır.</t>
-      <t id="241">Kargo Işınlanması - Stok Yenileme</t>
+      <t id="241">Yükün Işınlanması - Stok Yenileme</t>
       <t id="242">L ve XL gemileriniz füzeleri, dronları ve konuşlandırılabilir cihazları kenetlenmeden veya park etmeden kendi ikmal gemilerinizden ve istasyonlarınızdan yeniler: tedarikçi bunları kendi kargosundan üretir ve gemi radar menziline girdiğinde ışınlayarak gönderir.</t>
 
       <!-- Section: Cargo Teleportation (90000) -->

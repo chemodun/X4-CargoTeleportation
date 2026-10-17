@@ -13,15 +13,15 @@
       <t id="104">Move-se para o alcance de teletransporte do fornecedor, aguarda a fabricação e recebe mísseis, drones e utilizáveis por teletransporte de carga.</t>
 
       <!-- Research -->
-      <t id="201">Teletransporte de Carga - Alcance I</t>
+      <t id="201">Teletransporte para Carga - Alcance I</t>
       <t id="202">Aplica o teletransporte à carga entre naves. Duas de suas naves trocam carga sem atracar, estacionar ou usar drones quando estão na mesma zona e a no máximo 5 km de distância.</t>
-      <t id="211">Teletransporte de Carga - Alcance II</t>
+      <t id="211">Teletransporte para Carga - Alcance II</t>
       <t id="212">Estende o teletransporte de carga entre naves a parceiros a até 15 km de distância na mesma zona.</t>
-      <t id="221">Teletransporte de Carga - Alcance III</t>
+      <t id="221">Teletransporte para Carga - Alcance III</t>
       <t id="222">Estende o teletransporte de carga entre naves a parceiros a até 30 km de distância na mesma zona.</t>
-      <t id="231">Teletransporte de Carga - Estações</t>
+      <t id="231">Teletransporte para Carga - Estações</t>
       <t id="232">Suas naves negociam com suas próprias estações sem atracar nem usar drones: a carga é teletransportada assim que a nave está na zona da estação.</t>
-      <t id="241">Teletransporte de Carga - Reabastecimento</t>
+      <t id="241">Teletransporte para Carga - Reabastecimento</t>
       <t id="242">Suas naves L e XL repõem mísseis, drones e utilizáveis a partir de suas próprias naves de reabastecimento e estações sem atracar nem estacionar: o fornecedor os fabrica com sua carga e os teletransporta assim que a nave estiver no alcance do radar dele.</t>
 
       <!-- Section: Cargo Teleportation (90000) -->
