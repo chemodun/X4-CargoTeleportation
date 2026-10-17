@@ -28,7 +28,7 @@
       <t id="90000">Cargo Teleportation</t>
       <t id="90001">Ship-to-ship trades by cargo teleportation \(with a Range research\)</t>
       <t id="90006">Ship-to-station trades by cargo teleportation \(with the Stations research\)</t>
-      <t id="90007">Restock of L and XL ships from supply ships and stations by cargo teleportation \(with the Restock research\)</t>
+      <t id="90007">Restock of L and XL ships by cargo teleportation \(with the Restock research\)</t>
       <t id="90005">Order '{1041,621}' at once when a supply ship lacks the resources for a restock</t>
 
       <!-- Section: Supply Ships (90100) -->

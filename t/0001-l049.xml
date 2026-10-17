@@ -3,6 +3,37 @@
 <diff>
   <add sel="/language">
     <page id="1972092447" title="Cargo Teleportation" descr="" voice="no">
+      <t id="1">Frachtteleportation</t>
+      <t id="2">Forschungsprojekte, mit denen Ihre eigenen Schiffe und Stationen in derselben Zone Fracht sofort übergeben, ohne Andocken oder Drohnen.</t>
+
+      <!-- Order -->
+      <t id="101">Annäherung für Frachtteleportation</t>
+      <t id="102">Fliegt in die Zone und Reichweite des Handelspartners, damit die Fracht ohne Andocken teleportiert werden kann.</t>
+      <t id="103">Aufstocken per Frachtteleportation</t>
+      <t id="104">Fliegt in Teleportationsreichweite des Zulieferers, wartet auf die Fertigung und erhält Raketen, Drohnen und Aufstellbares per Frachtteleportation.</t>
+
+      <!-- Research -->
+      <t id="201">Frachtteleportation - Reichweite I</t>
+      <t id="202">Wendet die Teleportation auf Fracht zwischen Schiffen an. Zwei Ihrer Schiffe tauschen Fracht ohne Andocken, Parken oder Drohnen aus, wenn sie sich in derselben Zone befinden und höchstens 5 km voneinander entfernt sind.</t>
+      <t id="211">Frachtteleportation - Reichweite II</t>
+      <t id="212">Erweitert die Frachtteleportation zwischen Schiffen auf Partner in derselben Zone mit bis zu 15 km Abstand.</t>
+      <t id="221">Frachtteleportation - Reichweite III</t>
+      <t id="222">Erweitert die Frachtteleportation zwischen Schiffen auf Partner in derselben Zone mit bis zu 30 km Abstand.</t>
+      <t id="231">Frachtteleportation - Stationen</t>
+      <t id="232">Ihre Schiffe handeln ohne Andocken oder Drohnen mit Ihren eigenen Stationen: Die Fracht wird teleportiert, sobald sich das Schiff in der Zone der Station befindet.</t>
+      <t id="241">Frachtteleportation - Aufstocken</t>
+      <t id="242">Ihre L- und XL-Schiffe stocken Raketen, Drohnen und Aufstellbares ohne Andocken oder Parken bei Ihren eigenen Nachschubschiffen und Stationen auf: Der Zulieferer fertigt sie aus seiner Fracht und teleportiert sie herüber, sobald das Schiff in seiner Radarreichweite ist.</t>
+
+      <!-- Section: Cargo Teleportation (90000) -->
+      <t id="90000">Frachtteleportation</t>
+      <t id="90001">Handel zwischen Schiffen per Frachtteleportation \(mit einer Reichweiten-Forschung\)</t>
+      <t id="90006">Handel zwischen Schiff und Station per Frachtteleportation \(mit der Stationen-Forschung\)</t>
+      <t id="90007">Aufstocken von L- und XL-Schiffen per Frachtteleportation \(mit der Aufstocken-Forschung\)</t>
+      <t id="90005">Sofort '{1041,621}' befehlen, wenn einem Nachschubschiff die Ressourcen zum Aufstocken fehlen</t>
+
+      <!-- Section: Supply Ships (90100) -->
+      <t id="90100">Nachschubschiffe</t>
+
       <!-- Section: Debug (90900) -->
       <t id="90900">Debug</t>
       <t id="90910">Debug-Stufe</t>

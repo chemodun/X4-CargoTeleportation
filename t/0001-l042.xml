@@ -3,6 +3,37 @@
 <diff>
   <add sel="/language">
     <page id="1972092447" title="Cargo Teleportation" descr="" voice="no">
+      <t id="1">Teleportace nákladu</t>
+      <t id="2">Výzkumné projekty, které vašim lodím a stanicím ve stejné zóně umožní okamžitě předávat náklad bez přistání a bez dronů.</t>
+
+      <!-- Order -->
+      <t id="101">Přiblížení k teleportaci nákladu</t>
+      <t id="102">Přesune se do zóny a dosahu obchodního partnera, aby bylo možné náklad teleportovat bez přistání.</t>
+      <t id="103">Doplnění teleportací nákladu</t>
+      <t id="104">Přesune se do dosahu teleportace dodavatele, počká na výrobu a přijme rakety, drony a vybavení teleportací nákladu.</t>
+
+      <!-- Research -->
+      <t id="201">Teleportace nákladu - Dosah I</t>
+      <t id="202">Využívá teleportaci pro přepravu nákladu mezi loděmi. Dvě vaše lodě si vymění náklad bez přistání, parkování či dronů, pokud jsou ve stejné zóně a nejvýše 5 km od sebe.</t>
+      <t id="211">Teleportace nákladu - Dosah II</t>
+      <t id="212">Rozšiřuje teleportaci nákladu mezi loděmi na partnery vzdálené až 15 km ve stejné zóně.</t>
+      <t id="221">Teleportace nákladu - Dosah III</t>
+      <t id="222">Rozšiřuje teleportaci nákladu mezi loděmi na partnery vzdálené až 30 km ve stejné zóně.</t>
+      <t id="231">Teleportace nákladu - Stanice</t>
+      <t id="232">Vaše lodě obchodují s vašimi stanicemi bez přistání a bez dronů: náklad je teleportován, jakmile je loď v zóně stanice.</t>
+      <t id="241">Teleportace nákladu - Doplnění</t>
+      <t id="242">Vaše lodě L a XL doplňují rakety, drony a vybavení z vašich zásobovacích lodí a stanic bez přistání či parkování: dodavatel je vyrobí ze svého nákladu a teleportuje je, jakmile je loď v dosahu jeho radaru.</t>
+
+      <!-- Section: Cargo Teleportation (90000) -->
+      <t id="90000">Teleportace nákladu</t>
+      <t id="90001">Obchody mezi loděmi teleportací nákladu \(s výzkumem Dosah\)</t>
+      <t id="90006">Obchody mezi lodí a stanicí teleportací nákladu \(s výzkumem Stanice\)</t>
+      <t id="90007">Doplnění lodí L a XL teleportací nákladu \(s výzkumem Doplnění\)</t>
+      <t id="90005">Ihned vydat rozkaz '{1041,621}', když zásobovací lodi chybí zdroje k doplnění</t>
+
+      <!-- Section: Supply Ships (90100) -->
+      <t id="90100">Zásobovací lodě</t>
+
       <!-- Section: Debug (90900) -->
       <t id="90900">Ladění</t>
       <t id="90910">Úroveň ladění</t>

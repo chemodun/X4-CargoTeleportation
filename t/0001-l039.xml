@@ -3,6 +3,37 @@
 <diff>
   <add sel="/language">
     <page id="1972092447" title="Cargo Teleportation" descr="" voice="no">
+      <t id="1">Teletrasporto del carico</t>
+      <t id="2">Progetti di ricerca che permettono alle tue navi e stazioni nella stessa zona di trasferirsi il carico all'istante, senza attracco né droni.</t>
+
+      <!-- Order -->
+      <t id="101">Avvicinati per il teletrasporto del carico</t>
+      <t id="102">Si sposta nella zona e nel raggio d'azione del partner commerciale affinché il carico possa essere teletrasportato senza attracco.</t>
+      <t id="103">Rifornisci tramite teletrasporto del carico</t>
+      <t id="104">Si porta nel raggio di teletrasporto del fornitore, attende la produzione e riceve missili, droni e dispositivi schierabili tramite teletrasporto del carico.</t>
+
+      <!-- Research -->
+      <t id="201">Teletrasporto del carico - Raggio d'Azione I</t>
+      <t id="202">Applica il teletrasporto alle merci tra navi. Due delle tue navi si scambiano il carico senza attracco, parcheggio né droni quando si trovano nella stessa zona e a non più di 5 km di distanza.</t>
+      <t id="211">Teletrasporto del carico - Raggio d'Azione II</t>
+      <t id="212">Estende il teletrasporto del carico tra navi a partner fino a 15 km di distanza nella stessa zona.</t>
+      <t id="221">Teletrasporto del carico - Raggio d'Azione III</t>
+      <t id="222">Estende il teletrasporto del carico tra navi a partner fino a 30 km di distanza nella stessa zona.</t>
+      <t id="231">Teletrasporto del carico - Stazioni</t>
+      <t id="232">Le tue navi commerciano con le tue stazioni senza attracco né droni: il carico viene teletrasportato non appena la nave si trova nella zona della stazione.</t>
+      <t id="241">Teletrasporto del carico - Rifornimento</t>
+      <t id="242">Le tue navi L e XL si riforniscono di missili, droni e dispositivi schierabili dalle tue navi da rifornimento e stazioni senza attracco né parcheggio: il fornitore li produce dal proprio carico e li teletrasporta non appena la nave è entro la sua portata radar.</t>
+
+      <!-- Section: Cargo Teleportation (90000) -->
+      <t id="90000">Teletrasporto del carico</t>
+      <t id="90001">Scambi tra navi tramite teletrasporto del carico \(con una ricerca Raggio d'Azione\)</t>
+      <t id="90006">Scambi tra nave e stazione tramite teletrasporto del carico \(con la ricerca Stazioni\)</t>
+      <t id="90007">Rifornimento di navi L e XL tramite teletrasporto del carico \(con la ricerca Rifornimento\)</t>
+      <t id="90005">Ordina subito '{1041,621}' quando una nave da rifornimento non ha le risorse per un rifornimento</t>
+
+      <!-- Section: Supply Ships (90100) -->
+      <t id="90100">Navi da rifornimento</t>
+
       <!-- Section: Debug (90900) -->
       <t id="90900">Debug</t>
       <t id="90910">Livello di debug</t>

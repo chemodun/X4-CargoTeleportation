@@ -3,6 +3,37 @@
 <diff>
   <add sel="/language">
     <page id="1972092447" title="Cargo Teleportation" descr="" voice="no">
+      <t id="1">Kargo Işınlanması</t>
+      <t id="2">Aynı bölgedeki kendi gemilerinizin ve istasyonlarınızın kenetlenme veya dron olmadan anında kargo aktarmasını sağlayan araştırma projeleri.</t>
+
+      <!-- Order -->
+      <t id="101">Kargo Işınlanması için Yaklaş</t>
+      <t id="102">Kargonun kenetlenmeden ışınlanabilmesi için ticaret ortağının bölgesine ve menziline girer.</t>
+      <t id="103">Kargo Işınlanmasıyla Stokları Yinele</t>
+      <t id="104">Tedarikçinin ışınlanma menziline girer, üretimi bekler ve füzeleri, dronları ve konuşlandırılabilir cihazları kargo ışınlanmasıyla teslim alır.</t>
+
+      <!-- Research -->
+      <t id="201">Kargo Işınlanması - Menzil I</t>
+      <t id="202">Işınlanmayı gemiler arasındaki kargoya uygular. Gemilerinizden ikisi aynı bölgedeyken ve aralarında en fazla 5 km varken kenetlenme, park etme veya dron olmadan kargo alışverişi yapar.</t>
+      <t id="211">Kargo Işınlanması - Menzil II</t>
+      <t id="212">Gemiden gemiye kargo ışınlanmasını aynı bölgede 15 km'ye kadar uzaktaki ortaklara genişletir.</t>
+      <t id="221">Kargo Işınlanması - Menzil III</t>
+      <t id="222">Gemiden gemiye kargo ışınlanmasını aynı bölgede 30 km'ye kadar uzaktaki ortaklara genişletir.</t>
+      <t id="231">Kargo Işınlanması - İstasyonlar</t>
+      <t id="232">Gemileriniz kendi istasyonlarınızla kenetlenme veya dron olmadan ticaret yapar: gemi istasyonun bölgesine girer girmez kargo ışınlanır.</t>
+      <t id="241">Kargo Işınlanması - Stok Yenileme</t>
+      <t id="242">L ve XL gemileriniz füzeleri, dronları ve konuşlandırılabilir cihazları kenetlenmeden veya park etmeden kendi ikmal gemilerinizden ve istasyonlarınızdan yeniler: tedarikçi bunları kendi kargosundan üretir ve gemi radar menziline girdiğinde ışınlayarak gönderir.</t>
+
+      <!-- Section: Cargo Teleportation (90000) -->
+      <t id="90000">Kargo Işınlanması</t>
+      <t id="90001">Kargo ışınlanmasıyla gemiden gemiye ticaret \(bir Menzil araştırmasıyla\)</t>
+      <t id="90006">Kargo ışınlanmasıyla gemiden istasyona ticaret \(İstasyonlar araştırmasıyla\)</t>
+      <t id="90007">L ve XL gemilerin kargo ışınlanmasıyla stok yenilemesi \(Stok Yenileme araştırmasıyla\)</t>
+      <t id="90005">Bir ikmal gemisinin stok yenileme için kaynakları yetersiz olduğunda hemen '{1041,621}' emri ver</t>
+
+      <!-- Section: Supply Ships (90100) -->
+      <t id="90100">İkmal Gemileri</t>
+
       <!-- Section: Debug (90900) -->
       <t id="90900">Hata Ayıklama</t>
       <t id="90910">Hata Ayıklama Seviyesi</t>

@@ -3,6 +3,37 @@
 <diff>
   <add sel="/language">
     <page id="1972092447" title="Cargo Teleportation" descr="" voice="no">
+      <t id="1">Téléportation de cargaison</t>
+      <t id="2">Projets de recherche permettant à vos propres vaisseaux et stations situés dans la même zone de se transférer instantanément leur cargaison, sans amarrage ni drones.</t>
+
+      <!-- Order -->
+      <t id="101">Approcher pour la téléportation de cargaison</t>
+      <t id="102">Se déplace dans la zone et à portée du partenaire commercial afin que la cargaison puisse être téléportée sans amarrage.</t>
+      <t id="103">Réapprovisionner par téléportation de cargaison</t>
+      <t id="104">Se place à portée de téléportation du fournisseur, attend la fabrication et reçoit missiles, drones et déployables par téléportation de cargaison.</t>
+
+      <!-- Research -->
+      <t id="201">Téléportation de cargaison - Portée I</t>
+      <t id="202">Applique la téléportation au fret entre vaisseaux. Deux de vos vaisseaux échangent leur cargaison sans amarrage, stationnement ni drones lorsqu'ils sont dans la même zone et à 5 km au plus l'un de l'autre.</t>
+      <t id="211">Téléportation de cargaison - Portée II</t>
+      <t id="212">Étend la téléportation de cargaison entre vaisseaux aux partenaires distants de 15 km au plus dans la même zone.</t>
+      <t id="221">Téléportation de cargaison - Portée III</t>
+      <t id="222">Étend la téléportation de cargaison entre vaisseaux aux partenaires distants de 30 km au plus dans la même zone.</t>
+      <t id="231">Téléportation de cargaison - Stations</t>
+      <t id="232">Vos vaisseaux commercent avec vos propres stations sans amarrage ni drones : la cargaison est téléportée dès que le vaisseau se trouve dans la zone de la station.</t>
+      <t id="241">Téléportation de cargaison - Réapprovisionnement</t>
+      <t id="242">Vos vaisseaux L et XL se réapprovisionnent en missiles, drones et déployables auprès de vos propres vaisseaux de ravitaillement et stations sans amarrage ni stationnement : le fournisseur les fabrique à partir de sa cargaison et les téléporte dès que le vaisseau est dans sa portée radar.</t>
+
+      <!-- Section: Cargo Teleportation (90000) -->
+      <t id="90000">Téléportation de cargaison</t>
+      <t id="90001">Échanges entre vaisseaux par téléportation de cargaison \(avec une recherche Portée\)</t>
+      <t id="90006">Échanges entre vaisseau et station par téléportation de cargaison \(avec la recherche Stations\)</t>
+      <t id="90007">Réapprovisionnement des vaisseaux L et XL par téléportation de cargaison \(avec la recherche Réapprovisionnement\)</t>
+      <t id="90005">Ordonner '{1041,621}' immédiatement lorsqu'un vaisseau de ravitaillement manque de ressources pour un réapprovisionnement</t>
+
+      <!-- Section: Supply Ships (90100) -->
+      <t id="90100">Vaisseaux de ravitaillement</t>
+
       <!-- Section: Debug (90900) -->
       <t id="90900">Débogage</t>
       <t id="90910">Niveau de débogage</t>

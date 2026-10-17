@@ -3,6 +3,37 @@
 <diff>
   <add sel="/language">
     <page id="1972092447" title="Cargo Teleportation" descr="" voice="no">
+      <t id="1">Teleportacja ładunku</t>
+      <t id="2">Projekty badawcze, które pozwalają twoim statkom i stacjom w tej samej strefie natychmiast przekazywać ładunek, bez dokowania i dronów.</t>
+
+      <!-- Order -->
+      <t id="101">Zbliżenie do teleportacji ładunku</t>
+      <t id="102">Przemieszcza się do strefy i w zasięg partnera handlowego, aby ładunek mógł zostać teleportowany bez dokowania.</t>
+      <t id="103">Uzupełnienie przez teleportację ładunku</t>
+      <t id="104">Przemieszcza się w zasięg teleportacji dostawcy, czeka na produkcję i odbiera rakiety, drony i urządzenia przez teleportację ładunku.</t>
+
+      <!-- Research -->
+      <t id="201">Teleportacja ładunku - zasięg I</t>
+      <t id="202">Wykorzystuje teleportację do przewozu towarów między statkami. Dwa twoje statki wymieniają ładunek bez dokowania, parkowania i dronów, gdy są w tej samej strefie i nie dalej niż 5 km od siebie.</t>
+      <t id="211">Teleportacja ładunku - zasięg II</t>
+      <t id="212">Rozszerza teleportację ładunku między statkami na partnerów oddalonych do 15 km w tej samej strefie.</t>
+      <t id="221">Teleportacja ładunku - zasięg III</t>
+      <t id="222">Rozszerza teleportację ładunku między statkami na partnerów oddalonych do 30 km w tej samej strefie.</t>
+      <t id="231">Teleportacja ładunku - stacje</t>
+      <t id="232">Twoje statki handlują z twoimi stacjami bez dokowania i dronów: ładunek jest teleportowany, gdy tylko statek znajdzie się w strefie stacji.</t>
+      <t id="241">Teleportacja ładunku - uzupełnienie</t>
+      <t id="242">Twoje statki L i XL uzupełniają rakiety, drony i urządzenia z twoich statków zaopatrzeniowych i stacji bez dokowania i parkowania: dostawca wytwarza je ze swojego ładunku i teleportuje, gdy tylko statek znajdzie się w zasięgu jego radaru.</t>
+
+      <!-- Section: Cargo Teleportation (90000) -->
+      <t id="90000">Teleportacja ładunku</t>
+      <t id="90001">Handel między statkami przez teleportację ładunku \(z badaniem zasięgu\)</t>
+      <t id="90006">Handel statek-stacja przez teleportację ładunku \(z badaniem stacji\)</t>
+      <t id="90007">Uzupełnianie statków L i XL przez teleportację ładunku \(z badaniem uzupełnienia\)</t>
+      <t id="90005">Od razu wydaj rozkaz '{1041,621}', gdy statkowi zaopatrzeniowemu brakuje zasobów do uzupełnienia</t>
+
+      <!-- Section: Supply Ships (90100) -->
+      <t id="90100">Statki zaopatrzeniowe</t>
+
       <!-- Section: Debug (90900) -->
       <t id="90900">Debugowanie</t>
       <t id="90910">Poziom debugowania</t>

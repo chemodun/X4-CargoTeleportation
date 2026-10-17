@@ -3,6 +3,37 @@
 <diff>
   <add sel="/language">
     <page id="1972092447" title="Cargo Teleportation" descr="" voice="no">
+      <t id="1">Teletransportación de carga</t>
+      <t id="2">Proyectos de investigación que permiten a tus propias naves y estaciones en la misma zona transferirse carga al instante, sin atracar ni usar drones.</t>
+
+      <!-- Order -->
+      <t id="101">Aproximarse para teletransportación de carga</t>
+      <t id="102">Se desplaza a la zona y al alcance del socio comercial para que la carga pueda teletransportarse sin atracar.</t>
+      <t id="103">Reabastecer por teletransportación de carga</t>
+      <t id="104">Se desplaza al alcance de teletransportación del proveedor, espera la fabricación y recibe misiles, drones y desplegables por teletransportación de carga.</t>
+
+      <!-- Research -->
+      <t id="201">Teletransportación de carga - Rango I</t>
+      <t id="202">Aplica la teletransportación al transporte de mercancías entre naves. Dos de tus naves intercambian carga sin atracar, estacionar ni usar drones cuando están en la misma zona y a no más de 5 km de distancia.</t>
+      <t id="211">Teletransportación de carga - Rango II</t>
+      <t id="212">Amplía la teletransportación de carga entre naves a socios situados hasta a 15 km de distancia en la misma zona.</t>
+      <t id="221">Teletransportación de carga - Rango III</t>
+      <t id="222">Amplía la teletransportación de carga entre naves a socios situados hasta a 30 km de distancia en la misma zona.</t>
+      <t id="231">Teletransportación de carga - Estaciones</t>
+      <t id="232">Tus naves comercian con tus propias estaciones sin atracar ni usar drones: la carga se teletransporta en cuanto la nave está en la zona de la estación.</t>
+      <t id="241">Teletransportación de carga - Reabastecimiento</t>
+      <t id="242">Tus naves L y XL se reabastecen de misiles, drones y desplegables desde tus propias naves de reabastecimiento y estaciones sin atracar ni estacionar: el proveedor los fabrica con su carga y los teletransporta en cuanto la nave está dentro de su alcance del radar.</t>
+
+      <!-- Section: Cargo Teleportation (90000) -->
+      <t id="90000">Teletransportación de carga</t>
+      <t id="90001">Comercio entre naves por teletransportación de carga \(con una investigación de Rango\)</t>
+      <t id="90006">Comercio entre nave y estación por teletransportación de carga \(con la investigación Estaciones\)</t>
+      <t id="90007">Reabastecimiento de naves L y XL por teletransportación de carga \(con la investigación Reabastecimiento\)</t>
+      <t id="90005">Ordenar '{1041,621}' de inmediato cuando a una nave de reabastecimiento le falten recursos para un reabastecimiento</t>
+
+      <!-- Section: Supply Ships (90100) -->
+      <t id="90100">Naves de reabastecimiento</t>
+
       <!-- Section: Debug (90900) -->
       <t id="90900">Depuración</t>
       <t id="90910">Nivel de depuración</t>
