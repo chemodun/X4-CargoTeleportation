@@ -9,7 +9,7 @@ Capital ships waste minutes queueing for a pier just to hand over cargo to a sta
 - **Cargo Teleportation - Stations** research, available after **Cargo Teleportation - Range II**: every trade between your own ship and your own station happens without docking as soon as the ship is near enough to the station. Your existing traders and miners use it on their own, with no new orders.
 - **Cargo Teleportation - Restock** research, available after **Cargo Teleportation - Range II**: when one of your ships restocks missiles, drones or deployables from your own supply ship, it gets the **Restock by Cargo Teleportation** order instead of docking or parking: it moves within radar range of the supply ship, waits while the supply ship builds the items from its cargo, and receives them by teleportation. The wait is a few seconds plus a fifteenth of the normal build time, at most two minutes for an XL ship and one minute for any other.
 - **No drones needed for the transfer**: the cargo arrives in a few seconds; between two large ships it takes about half a minute.
-- **Extension Options**: switch it off, change the ship-to-ship range of each step from 1 to 50 km, and let a supply ship that lacks the resources for a restock get the **Get Supplies** order at once (this option works with or without the research).
+- **Extension Options**: switch ship-to-ship trades, ship-to-station trades and restocks on or off one by one. All three are on by default and each still needs its research; switched off, the feature behaves as if it were not researched. Another option lets a supply ship that lacks the resources for a restock get the **Get Supplies** order at once (this one works with or without the research).
 
 ## Limitations
 

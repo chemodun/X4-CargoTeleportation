@@ -19,15 +19,14 @@
       </actions>
     </library>
 
-    <!-- Ship-to-ship ranges in km; the AI patches read this table directly -->
+    <!-- Feature switches (each also needs its research); the AI patches read this table directly -->
     <library name="Ensure_Config" purpose="include_actions">
       <actions>
         <set_value name="$cfg" exact="table[
           $debugLevel = 'none',
-          $enabled = 1,
-          $range1 = 5,
-          $range2 = 15,
-          $range3 = 30,
+          $shipToShip = 1,
+          $shipToStation = 1,
+          $restock = 1,
           $requestSupplies = 0,
         ]" />
         <do_if value="@player.entity.$CargoTeleportationConfig == null">
@@ -102,48 +101,31 @@
               <param name="title" value="{1972092447, 90000}" />
             </run_actions>
             <run_actions ref="md.Options_Helper.Add_Checkbox">
-              <param name="id" value="'enabled'" />
+              <param name="id" value="'shipToShip'" />
               <param name="col" value="1" />
               <param name="textColSpan" value="11" />
               <param name="text" value="{1972092447, 90001}" />
               <param name="data" value="$cfg" />
               <param name="handle" value="Handle_Checkbox_Changed" />
             </run_actions>
-            <run_actions ref="md.Options_Helper.Add_Slider">
-              <param name="id" value="'range1'" />
-              <param name="text" value="{1972092447, 90002}" />
-              <param name="min" value="1" />
-              <param name="max" value="50" />
-              <param name="step" value="1" />
-              <param name="suffix" value="' %s'.[{1001, 108}]" />
-              <param name="textColSpan" value="6" />
-              <param name="colSpan" value="6" />
+            <run_actions ref="md.Options_Helper.Add_Checkbox">
+              <param name="id" value="'shipToStation'" />
+              <param name="col" value="1" />
+              <param name="textColSpan" value="11" />
+              <param name="text" value="{1972092447, 90006}" />
               <param name="data" value="$cfg" />
-              <param name="handle" value="Handle_Slider_Changed" />
+              <param name="handle" value="Handle_Checkbox_Changed" />
             </run_actions>
-            <run_actions ref="md.Options_Helper.Add_Slider">
-              <param name="id" value="'range2'" />
-              <param name="text" value="{1972092447, 90003}" />
-              <param name="min" value="1" />
-              <param name="max" value="50" />
-              <param name="step" value="1" />
-              <param name="suffix" value="' %s'.[{1001, 108}]" />
-              <param name="textColSpan" value="6" />
-              <param name="colSpan" value="6" />
+            <run_actions ref="md.Options_Helper.Add_Checkbox">
+              <param name="id" value="'restock'" />
+              <param name="col" value="1" />
+              <param name="textColSpan" value="11" />
+              <param name="text" value="{1972092447, 90007}" />
               <param name="data" value="$cfg" />
-              <param name="handle" value="Handle_Slider_Changed" />
+              <param name="handle" value="Handle_Checkbox_Changed" />
             </run_actions>
-            <run_actions ref="md.Options_Helper.Add_Slider">
-              <param name="id" value="'range3'" />
-              <param name="text" value="{1972092447, 90004}" />
-              <param name="min" value="1" />
-              <param name="max" value="50" />
-              <param name="step" value="1" />
-              <param name="suffix" value="' %s'.[{1001, 108}]" />
-              <param name="textColSpan" value="6" />
-              <param name="colSpan" value="6" />
-              <param name="data" value="$cfg" />
-              <param name="handle" value="Handle_Slider_Changed" />
+            <run_actions ref="md.Options_Helper.Add_Title_Row">
+              <param name="title" value="{1972092447, 90100}" />
             </run_actions>
             <run_actions ref="md.Options_Helper.Add_Checkbox">
               <param name="id" value="'requestSupplies'" />
@@ -199,19 +181,6 @@
           </actions>
         </cue>
 
-        <cue name="Handle_Slider_Changed" instantiate="true" version="1">
-          <conditions>
-            <event_cue_signalled />
-          </conditions>
-          <actions>
-            <set_value name="$resultTable" exact="player.entity.$CargoTeleportationConfig" />
-            <include_actions ref="md.Options_Helper.Process_Slider_Changed" />
-            <remove_value name="$resultTable" />
-            <include_actions ref="ReadDebugChances" />
-            <debug_text text="'CargoTeleportation: Options: %s set to %s'.[event.param.$echo.$valueId, @event.param.$value]" chance="$debugChance" />
-            <include_actions ref="ClearDebugChances" />
-          </actions>
-        </cue>
 
         <cue name="Handle_Dropdown_Changed" instantiate="true" version="1">
           <conditions>

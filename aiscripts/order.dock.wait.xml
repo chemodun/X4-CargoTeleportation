@@ -27,27 +27,27 @@
       <do_if value="@this.$CargoTeleportationNoFlag == $ctDeal">
         <remove_value name="this.$CargoTeleportationNoFlag" />
       </do_if>
-      <do_elseif value="this.assignedcontrolled.isplayerowned and $destination.isplayerowned and (@this.assignedcontrolled.dock.container != $destination) and @player.entity.$CargoTeleportationEngine == 1 and (@player.entity.$CargoTeleportationConfig.$enabled == 1 or @player.entity.$CargoTeleportationConfig.$enabled == true)">
-        <!-- -1km off, 0km a station partner (any distance in its zone), else the ship-to-ship range -->
+      <do_elseif value="this.assignedcontrolled.isplayerowned and $destination.isplayerowned and (@this.assignedcontrolled.dock.container != $destination) and @player.entity.$CargoTeleportationEngine == 1">
+        <!-- -1km off, 0km a station partner (any distance in its zone), else the ship-to-ship range; each feature needs its research and its option -->
         <set_value name="$ctRange" exact="-1km" />
+        <set_value name="$ctCfg" exact="player.entity.$CargoTeleportationConfig" />
         <do_if value="not $destination.isclass.ship">
-          <do_if value="ware.research_cargo_teleportation_stations.research.unlocked">
+          <do_if value="ware.research_cargo_teleportation_stations.research.unlocked and (@$ctCfg.$shipToStation == 1 or @$ctCfg.$shipToStation == true)">
             <set_value name="$ctRange" exact="0km" />
           </do_if>
         </do_if>
-        <do_else>
-          <set_value name="$ctCfg" exact="player.entity.$CargoTeleportationConfig" />
+        <do_elseif value="@$ctCfg.$shipToShip == 1 or @$ctCfg.$shipToShip == true">
           <do_if value="ware.research_cargo_teleportation_range_03.research.unlocked">
-            <set_value name="$ctRange" exact="$ctCfg.$range3 * 1km" />
+            <set_value name="$ctRange" exact="30km" />
           </do_if>
           <do_elseif value="ware.research_cargo_teleportation_range_02.research.unlocked">
-            <set_value name="$ctRange" exact="$ctCfg.$range2 * 1km" />
+            <set_value name="$ctRange" exact="15km" />
           </do_elseif>
           <do_elseif value="ware.research_cargo_teleportation_range_01.research.unlocked">
-            <set_value name="$ctRange" exact="$ctCfg.$range1 * 1km" />
+            <set_value name="$ctRange" exact="5km" />
           </do_elseif>
-          <remove_value name="$ctCfg" />
-        </do_else>
+        </do_elseif>
+        <remove_value name="$ctCfg" />
         <do_if value="$ctRange ge 0km">
           <create_order id="'CargoTeleportationReach'" object="this.assignedcontrolled" immediate="true">
             <param name="tradedeal" value="$ctDeal" />

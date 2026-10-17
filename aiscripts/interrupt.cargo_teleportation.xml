@@ -50,7 +50,7 @@
       <!-- Runs in ResupplyCheck right before vanilla adds the restock build, which is skipped when $ctRestocking is true: an own ship restocking from an own supply ship that holds the resources gets the Restock order instead. -->
       <actions name="CargoTeleportation_Restock">
         <set_value name="$ctRestocking" exact="false" />
-        <do_if value="this.assignedcontrolled.isplayerowned and @$destination_station_interrupt.isplayerowned and $destination_station_interrupt.isclass.ship and $destination_station_interrupt != this.assignedcontrolled and ware.research_cargo_teleportation_restock.research.unlocked and (@player.entity.$CargoTeleportationConfig.$enabled == 1 or @player.entity.$CargoTeleportationConfig.$enabled == true)">
+        <do_if value="this.assignedcontrolled.isplayerowned and @$destination_station_interrupt.isplayerowned and $destination_station_interrupt.isclass.ship and $destination_station_interrupt != this.assignedcontrolled and ware.research_cargo_teleportation_restock.research.unlocked and (@player.entity.$CargoTeleportationConfig.$restock == 1 or @player.entity.$CargoTeleportationConfig.$restock == true)">
           <do_all exact="this.assignedcontrolled.orders.count" counter="$ctI">
             <do_if value="this.assignedcontrolled.orders.{$ctI}.id == 'CargoTeleportationRestock'">
               <!-- already on its way: neither a second order nor a vanilla build -->
