@@ -10,7 +10,7 @@
       <t id="101">Approach for Cargo Teleportation</t>
       <t id="102">Moves into the trade partner's zone and range so the cargo can be teleported without docking.</t>
       <t id="103">Restock by Cargo Teleportation</t>
-      <t id="104">Moves into teleportation range of the supply ship, waits for the build and receives missiles, drones and deployables by cargo teleportation.</t>
+      <t id="104">Moves into teleportation range of the supplier, waits for the build and receives missiles, drones and deployables by cargo teleportation.</t>
 
       <!-- Research -->
       <t id="201">Cargo Teleportation - Range I</t>
@@ -22,13 +22,13 @@
       <t id="231">Cargo Teleportation - Stations</t>
       <t id="232">Your ships trade with your own stations without docking or drones: the cargo is teleported as soon as the ship is in the station's zone.</t>
       <t id="241">Cargo Teleportation - Restock</t>
-      <t id="242">Your ships restock missiles, drones and deployables from your own supply ships without docking or parking: the supply ship builds them from its cargo and teleports them over once both ships are within radar range of each other.</t>
+      <t id="242">Your L and XL ships restock missiles, drones and deployables from your own supply ships and stations without docking or parking: the supplier builds them from its cargo and teleports them over once the ship is within radar range of it.</t>
 
       <!-- Section: Cargo Teleportation (90000) -->
       <t id="90000">Cargo Teleportation</t>
       <t id="90001">Ship-to-ship trades by cargo teleportation \(with a Range research\)</t>
       <t id="90006">Ship-to-station trades by cargo teleportation \(with the Stations research\)</t>
-      <t id="90007">Restock from supply ships by cargo teleportation \(with the Restock research\)</t>
+      <t id="90007">Restock of L and XL ships from supply ships and stations by cargo teleportation \(with the Restock research\)</t>
       <t id="90005">Order '{1041,621}' at once when a supply ship lacks the resources for a restock</t>
 
       <!-- Section: Supply Ships (90100) -->

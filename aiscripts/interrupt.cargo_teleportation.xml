@@ -8,6 +8,7 @@
         <set_value name="$ctShort" exact="false" />
         <set_value name="$ctNeeded" exact="table[]" />
         <set_value name="$ctAdd" exact="[]" />
+        <set_value name="$ctItems" exact="table[]" />
         <set_value name="$ctTables" exact="[@$ctAmmo, @$ctUnits]" />
         <do_all exact="2" counter="$ctI">
           <do_if value="$ctTables.{$ctI}">
@@ -18,6 +19,7 @@
                 <set_value name="$ctDelta" exact="$ctTarget - (if $ctI == 1 then this.assignedcontrolled.ammostorage.{$ctMacro}.count else this.assignedcontrolled.units.{$ctMacro}.count)" />
                 <do_if value="$ctDelta gt 0">
                   <append_to_list name="$ctAdd" exact="[$ctMacro, $ctDelta, $ctI == 2]" />
+                  <set_value name="$ctItems.{$ctWare}" exact="$ctDelta" />
                   <!-- wareamountlist is a pseudo type: read through it, it cannot be stored -->
                   <do_all exact="$ctWare.resources.count" counter="$ctJ">
                     <set_value name="$ctResWare" exact="$ctWare.resources.{$ctJ}" />
@@ -35,6 +37,11 @@
             <break />
           </do_if>
         </do_for_each>
+        <!-- a station's cargo includes stock reserved by buyers: vanilla's own check counts the reservations -->
+        <do_if value="not $ctShort and $ctSupplier.isclass.station and $ctItems.keys.count and not $ctSupplier.hasresourcesfor.{$ctItems}">
+          <set_value name="$ctShort" exact="true" />
+        </do_if>
+        <remove_value name="$ctItems" />
         <remove_value name="$ctTables" />
         <remove_value name="$ctKey" />
         <remove_value name="$ctTarget" />
@@ -47,10 +54,10 @@
         <remove_value name="$ctJ" />
       </actions>
 
-      <!-- Runs in ResupplyCheck right before vanilla adds the restock build, which is skipped when $ctRestocking is true: an own ship restocking from an own supply ship that holds the resources gets the Restock order instead. -->
+      <!-- Runs in ResupplyCheck right before vanilla adds the restock build, which is skipped when $ctRestocking is true: an own L/XL ship restocking from an own supply ship or station that holds the resources gets the Restock order instead. -->
       <actions name="CargoTeleportation_Restock">
         <set_value name="$ctRestocking" exact="false" />
-        <do_if value="this.assignedcontrolled.isplayerowned and @$destination_station_interrupt.isplayerowned and $destination_station_interrupt.isclass.ship and $destination_station_interrupt != this.assignedcontrolled and ware.research_cargo_teleportation_restock.research.unlocked and (@player.entity.$CargoTeleportationConfig.$restock == 1 or @player.entity.$CargoTeleportationConfig.$restock == true)">
+        <do_if value="this.assignedcontrolled.isplayerowned and this.assignedcontrolled.iscapitalship and @$destination_station_interrupt.isplayerowned and ($destination_station_interrupt.isclass.ship or $destination_station_interrupt.isclass.station) and $destination_station_interrupt != this.assignedcontrolled and ware.research_cargo_teleportation_restock.research.unlocked and (@player.entity.$CargoTeleportationConfig.$restock == 1 or @player.entity.$CargoTeleportationConfig.$restock == true)">
           <do_all exact="this.assignedcontrolled.orders.count" counter="$ctI">
             <do_if value="this.assignedcontrolled.orders.{$ctI}.id == 'CargoTeleportationRestock'">
               <!-- already on its way: neither a second order nor a vanilla build -->

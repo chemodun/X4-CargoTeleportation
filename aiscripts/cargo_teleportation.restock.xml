@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Restocks missiles, drones and deployables from an own supply ship without docking: moves into range as the Reach order does, waits the build time, then takes the resources from the supplier's cargo and adds the items. Queued by the patched ResupplyCheck in place of the vanilla build. -->
+<!-- Restocks missiles, drones and deployables from an own supply ship or station without docking: moves into range as the Reach order does, waits the build time, then takes the resources from the supplier's cargo and adds the items. Queued by the patched ResupplyCheck in place of the vanilla build. -->
 <aiscript name="cargo_teleportation.restock" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="aiscripts.xsd" version="1">
   <order id="CargoTeleportationRestock" name="{1972092447, 103}" description="{1972092447, 104}" category="internal" canplayercancel="true">
     <params>
-      <param name="supplier" type="object" text="{1041, 10125}" comment="Own supply ship" />
+      <param name="supplier" type="object" text="{1041, 10125}" comment="Own supply ship or station" />
       <param name="ammo" type="internal" default="null" comment="Ammo target totals, as add_build_to_modify_ship takes them" />
       <param name="units" type="internal" default="null" comment="Unit target totals, as add_build_to_modify_ship takes them" />
       <param name="internalorder" type="internal" default="false" comment="Passed into the Reach move for blacklist enforcement" />
@@ -108,8 +108,9 @@
         <debug_text text="'CargoTeleportation: %s restock from %s dropped after the build: short %s, items %s'.[$thisship.debugname, $supplier.debugname, $ctShort, $ctAdd]" chance="$logChance" />
         <resume label="finish" />
       </do_if>
+      <set_value name="$paid" exact="table[]" />
       <do_for_each name="$resware" valuename="$amount" in="$ctNeeded">
-        <remove_cargo object="$supplier" ware="$resware" exact="$amount" />
+        <remove_cargo object="$supplier" ware="$resware" exact="$amount" result="$paid.{$resware}" />
       </do_for_each>
       <do_all exact="$ctAdd.count" counter="$i">
         <do_if value="$ctAdd.{$i}.{3}">
@@ -119,7 +120,7 @@
           <add_ammo object="$thisship" macro="$ctAdd.{$i}.{1}" amount="$ctAdd.{$i}.{2}" />
         </do_else>
       </do_all>
-      <debug_text text="'CargoTeleportation: %s restocked %s from %s'.[$thisship.debugname, $ctAdd, $supplier.debugname]" chance="$logChance" />
+      <debug_text text="'CargoTeleportation: %s restocked %s from %s, paid %s'.[$thisship.debugname, $ctAdd, $supplier.debugname, $paid]" chance="$logChance" />
 
       <label name="finish" />
       <remove_value name="this.$CargoTeleportationRestockQuery" />
