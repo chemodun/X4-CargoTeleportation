@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon name="cargo_teleportation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ui/core/addon.xsd">
+  <environment type="menus">
+    <file name="ui/cargo_teleportation.lua" />
+    <savedvariable name="__CARGO_TELEPORTATION_ENGINE" storage="userdata" />
+    <dependency name="sn_mod_support_apis" />
+  </environment>
+</addon>

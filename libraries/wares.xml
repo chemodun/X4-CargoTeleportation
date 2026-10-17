@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+  <add sel="/wares">
+    <ware id="research_cargo_teleportation_range_01" name="{1972092447,201}" description="{1972092447,202}" transport="research" volume="1"
+      tags="research" sortorder="101">
+      <price min="1" average="1" max="1" />
+      <research time="900">
+        <primary>
+          <ware ware="advancedelectronics" amount="300" />
+          <ware ware="energycells" amount="8000" />
+          <ware ware="plasmaconductors" amount="400" />
+        </primary>
+        <research>
+          <ware ware="research_teleportation_range_02" />
+        </research>
+      </research>
+    </ware>
+    <ware id="research_cargo_teleportation_range_02" name="{1972092447,211}" description="{1972092447,212}" transport="research" volume="1"
+      tags="research" sortorder="101">
+      <price min="1" average="1" max="1" />
+      <research time="1200">
+        <primary>
+          <ware ware="advancedelectronics" amount="600" />
+          <ware ware="energycells" amount="15000" />
+          <ware ware="fieldcoils" amount="1000" />
+          <ware ware="nividium" amount="200" />
+        </primary>
+        <research>
+          <ware ware="research_cargo_teleportation_range_01" />
+        </research>
+      </research>
+    </ware>
+    <ware id="research_cargo_teleportation_range_03" name="{1972092447,221}" description="{1972092447,222}" transport="research" volume="1"
+      tags="research" sortorder="101">
+      <price min="1" average="1" max="1" />
+      <research time="1500">
+        <primary>
+          <ware ware="advancedelectronics" amount="1200" />
+          <ware ware="energycells" amount="25000" />
+          <ware ware="fieldcoils" amount="2500" />
+          <ware ware="nividium" amount="1000" />
+          <ware ware="superfluidcoolant" amount="5000" />
+        </primary>
+        <research>
+          <ware ware="research_cargo_teleportation_range_02" />
+        </research>
+      </research>
+    </ware>
+    <ware id="research_cargo_teleportation_stations" name="{1972092447,231}" description="{1972092447,232}" transport="research" volume="1"
+      tags="research" sortorder="101">
+      <price min="1" average="1" max="1" />
+      <research time="1500">
+        <primary>
+          <ware ware="advancedelectronics" amount="1200" />
+          <ware ware="energycells" amount="25000" />
+          <ware ware="fieldcoils" amount="2500" />
+          <ware ware="nividium" amount="1000" />
+          <ware ware="superfluidcoolant" amount="5000" />
+        </primary>
+        <research>
+          <ware ware="research_cargo_teleportation_range_02" />
+        </research>
+      </research>
+    </ware>
+    <ware id="research_cargo_teleportation_restock" name="{1972092447,241}" description="{1972092447,242}" transport="research" volume="1"
+      tags="research" sortorder="101">
+      <price min="1" average="1" max="1" />
+      <research time="1500">
+        <primary>
+          <ware ware="advancedelectronics" amount="1200" />
+          <ware ware="energycells" amount="25000" />
+          <ware ware="fieldcoils" amount="2500" />
+          <ware ware="nividium" amount="1000" />
+          <ware ware="superfluidcoolant" amount="5000" />
+        </primary>
+        <research>
+          <ware ware="research_cargo_teleportation_range_02" />
+        </research>
+      </research>
+    </ware>
+  </add>
+</diff>

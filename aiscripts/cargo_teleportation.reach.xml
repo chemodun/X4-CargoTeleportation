@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Brings the ship into the partner's zone and range as DockAt would, stops it, gets the deal salvage-flagged and marks the deal on the pilot: $CargoTeleportationReady or $CargoTeleportationNoFlag. Queued by the patched trade and dock orders, which then continue from the mark.
+     Without a deal it only moves into range and stops, returning true (run by the Restock order). -->
+<aiscript name="cargo_teleportation.reach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="aiscripts.xsd" version="2">
+  <order id="CargoTeleportationReach" name="{1972092447, 101}" description="{1972092447, 102}" category="internal" canplayercancel="true">
+    <params>
+      <param name="tradedeal" type="trade" text="{1041, 10130}" comment="Trade, first so the Lua flag service finds it; null = move only" />
+      <param name="destination" type="object" text="{1041, 10027}" comment="Trade partner" />
+      <param name="range" type="internal" default="-1km" comment="Teleportation range; 0km = any distance within the partner's zone" />
+      <param name="internalorder" type="internal" default="false" comment="Passed into move.generic for blacklist enforcement, as DockAt" />
+      <param name="noboost" type="internal" default="false" comment="Passed into move.generic" />
+      <param name="uselocalhighways" type="internal" default="not this.ship.iscapitalship" comment="Passed into move.generic" />
+      <param name="recallsubordinates" type="internal" default="true" comment="Passed into move.generic" />
+      <param name="noattackresponse" type="internal" default="false" comment="Read in interrupt.attacked" />
+      <param name="debugchance" type="bool" default="0" advanced="true" text="{1041, 10086}" comment="Print debug output">
+        <input_param name="truevalue" value="100" />
+      </param>
+    </params>
+    <requires>
+      <match shiptype="shiptype.lasertower" negate="true" />
+    </requires>
+    <location object="$destination" condition="$destination.exists" />
+  </order>
+  <interrupts>
+    <handler>
+      <conditions>
+        <check_any>
+          <event_object_destroyed object="$destination" check="false" />
+          <event_object_abandoned object="$destination" check="false" />
+          <check_all>
+            <event_object_changed_owner object="$destination" check="false" />
+            <check_value value="$thisship.relationto.{$destination} lt 0" />
+          </check_all>
+          <event_trade_cancelled tradeoffer="$tradedeal" />
+        </check_any>
+      </conditions>
+      <actions>
+        <debug_text text="'CargoTeleportation: %s gives up on %s: %s'.[$thisship.debugname, @$destination.debugname, event.name]" chance="$logChance" />
+        <abort_called_scripts resume="giveup" />
+      </actions>
+    </handler>
+    <handler>
+      <conditions>
+        <check_any>
+          <check_all>
+            <event_object_changed_zone object="$destination" check="false" />
+            <check_any>
+              <check_value value="event.param.isclass.highway" />
+              <check_value value="event.param2.isclass.highway" />
+            </check_any>
+          </check_all>
+          <event_object_changed_sector object="$destination" check="false" />
+        </check_any>
+      </conditions>
+      <actions>
+        <abort_called_scripts resume="movetozone" />
+      </actions>
+    </handler>
+    <handler ref="SectorChangeHandler" />
+    <handler ref="AttackHandler" />
+    <handler ref="MissileLockHandler" />
+    <handler ref="ScannedHandler" />
+    <handler ref="InspectedHandler" />
+    <handler ref="TideHandler" />
+    <handler ref="LostReservationHandler" />
+  </interrupts>
+  <init>
+    <set_value name="$thisship" exact="this.assignedcontrolled" />
+    <set_value name="$moveonly" exact="$tradedeal == null" />
+    <set_value name="$traceChance" exact="if @player.entity.$CargoTeleportationConfig.$debugLevel == 'trace' then 100 else 0" />
+    <set_value name="$logChance" exact="if @player.entity.$CargoTeleportationConfig.$debugLevel == 'debug' or $traceChance == 100 then 100 else 0" />
+  </init>
+  <attention min="unknown">
+    <actions>
+      <do_if value="not $moveonly">
+        <remove_value name="this.$CargoTeleportationReady" />
+        <set_value name="this.$CargoTeleportationNoFlag" exact="$tradedeal" />
+      </do_if>
+      <set_value name="$moves" exact="0" />
+      <do_if value="(not $moveonly and not $tradedeal.exists) or not $destination.isoperational or $destination == $thisship or $range lt 0km or $thisship.towedobject">
+        <resume label="giveup" />
+      </do_if>
+
+      <!-- the same partner blacklist test TradePerform runs before it docks -->
+      <include_interrupt_actions ref="GetBlacklistgroup" />
+      <do_if value="$internalorder and ($destination.isblacklisted.{blacklisttype.objectactivity}.{$blacklistgroup}.{$thisship} or @$destination.sector.isblacklisted.{blacklisttype.sectoractivity}.{$blacklistgroup}.{$thisship} or @$destination.sector.isblacklisted.{blacklisttype.sectortravel}.{$blacklistgroup}.{$thisship}) and $destination.sector and ($destination.sector != @$thisship.commander.sector)">
+        <debug_text text="'CargoTeleportation: %s partner %s is blacklisted'.[$thisship.debugname, $destination.debugname]" chance="$logChance" />
+        <resume label="giveup" />
+      </do_if>
+
+      <do_if value="$thisship.dock or ($thisship.parkedat and ($thisship.parkedat != $destination) and not @$thisship.parkedat.hascontext.{$destination})">
+        <run_script name="'move.undock'">
+          <param name="debugchance" value="$debugchance" />
+        </run_script>
+      </do_if>
+
+      <label name="movetozone" />
+
+      <do_if value="(not $moveonly and not $tradedeal.exists) or not $destination.isoperational or $moves ge 5">
+        <resume label="giveup" />
+      </do_if>
+      <do_if value="$destination.zone.isclass.highway">
+        <wait min="17s" max="31s">
+          <interrupt>
+            <conditions>
+              <event_object_changed_zone object="$destination" />
+              <check_value value="not event.param.isclass.highway" />
+            </conditions>
+          </interrupt>
+        </wait>
+        <set_value name="$moves" operation="add" />
+        <resume label="movetozone" />
+      </do_if>
+
+      <set_command command="command.move" param="$destination" />
+      <leave_formation object="$thisship" />
+
+      <set_value name="$inzone" exact="this.zone == $destination.zone" />
+      <do_if value="not $inzone and this.sector == $destination.sector">
+        <create_position name="$pos" object="$thisship" space="$destination.zone" />
+        <set_value name="$inzone" exact="$pos.x ge -50km and $pos.x le 50km and $pos.y ge -50km and $pos.y le 50km and $pos.z ge -50km and $pos.z le 50km" />
+      </do_if>
+      <do_if value="this.sector != $destination.sector or not $inzone or ($range gt 0km and $thisship.bboxdistanceto.{$destination} gt $range)">
+        <include_interrupt_actions ref="NPCUseCase_NavOrder" />
+        <set_value name="$moves" operation="add" />
+        <do_if value="this.sector != $destination.sector and $range gt 0km">
+          <!-- a ship partner: reach its sector, the closing move below aims inside the range -->
+          <run_script name="'move.generic'" result="$movesuccess">
+            <param name="destination" value="$destination" />
+            <param name="endintargetsector" value="true" />
+            <param name="strictblacklist" value="$internalorder" />
+            <param name="noboost" value="$noboost" />
+            <param name="uselocalhighways" value="$uselocalhighways" />
+            <param name="recallsubordinates" value="$recallsubordinates" />
+            <param name="debugchance" value="$debugchance" />
+          </run_script>
+        </do_if>
+        <do_elseif value="$range gt 0km">
+          <!-- ship partner in this sector: a point on our side of it at most 0.8 of the range from its centre -->
+          <create_position name="$rel" object="$thisship" space="$destination" />
+          <set_value name="$reach" exact="[$range * 0.8, $destination.size / 2 + $thisship.size].max" />
+          <create_position name="$offset" x="$rel.x * $reach / $rel.length" y="$rel.y * $reach / $rel.length" z="$rel.z * $reach / $rel.length" />
+          <run_script name="'move.generic'" result="$movesuccess">
+            <param name="destination" value="$destination" />
+            <param name="position" value="$offset" />
+            <param name="strictblacklist" value="$internalorder" />
+            <param name="noboost" value="$noboost" />
+            <param name="uselocalhighways" value="$uselocalhighways" />
+            <param name="recallsubordinates" value="$recallsubordinates" />
+            <param name="debugchance" value="$debugchance" />
+          </run_script>
+          <debug_text text="'CargoTeleportation: %s closing move to %s m from the centre of %s: was %s, now %s (bbox %s)'.[$thisship.debugname, $reach, $destination.debugname, $rel.length, $thisship.distanceto.{$destination}, $thisship.bboxdistanceto.{$destination}]" chance="$traceChance" />
+          <remove_value name="$rel" />
+          <remove_value name="$reach" />
+          <remove_value name="$offset" />
+        </do_elseif>
+        <do_else>
+          <run_script name="'move.generic'" result="$movesuccess">
+            <param name="destination" value="$destination" />
+            <param name="endintargetzone" value="true" />
+            <param name="strictblacklist" value="$internalorder" />
+            <param name="noboost" value="$noboost" />
+            <param name="uselocalhighways" value="$uselocalhighways" />
+            <param name="recallsubordinates" value="$recallsubordinates" />
+            <param name="debugchance" value="$debugchance" />
+          </run_script>
+        </do_else>
+        <wait min="300ms" max="750ms" />
+        <do_if value="not $movesuccess">
+          <do_if value="($internalorder and $thisship.gatedistance.{$destination}.{$blacklistgroup}.{$thisship} ge 0) or (not $internalorder and $thisship.gatedistance.{$destination} ge 0)">
+            <resume label="movetozone" />
+          </do_if>
+          <!-- no path: the vanilla dock after the NoFlag mark fails the order as usual -->
+          <debug_text text="'CargoTeleportation: %s has no path to %s'.[$thisship.debugname, $destination.debugname]" chance="$logChance" />
+          <resume label="giveup" />
+        </do_if>
+        <resume label="movetozone" />
+      </do_if>
+
+      <!-- in reach: trade only from a full stop; braking drift is not re-checked, so there is no move-stop loop -->
+      <stop_moving object="$thisship" />
+      <!-- as vanilla's Stop: hold the spot, or the movement move.generic began keeps the ship at cruise speed -->
+      <move_to object="$thisship" destination="this.zone" uselocalhighways="false" forceposition="false" finishonapproach="true" sinceversion="2">
+        <position object="$thisship" />
+        <interrupt_after_time time="0s" />
+      </move_to>
+      <set_value name="$waits" exact="0" />
+      <do_while value="$thisship.speed gt 1m and $waits lt 120">
+        <wait exact="500ms" />
+        <set_value name="$waits" operation="add" />
+      </do_while>
+      <do_if value="$thisship.speed gt 1m">
+        <debug_text text="'CargoTeleportation: %s did not stop near %s (speed %s)'.[$thisship.debugname, $destination.debugname, $thisship.speed]" chance="$logChance" />
+        <resume label="giveup" />
+      </do_if>
+      <do_if value="not $destination.isoperational or this.sector != $destination.sector">
+        <resume label="movetozone" />
+      </do_if>
+      <do_if value="$moveonly">
+        <debug_text text="'CargoTeleportation: %s stopped in range of %s at %s (range %s)'.[$thisship.debugname, $destination.debugname, $thisship.bboxdistanceto.{$destination}, $range]" chance="$traceChance" />
+        <return value="true" />
+      </do_if>
+
+      <!-- a ship keeps its own zone near the partner; the flag works only inside one zone, so join it in place -->
+      <do_if value="this.zone != $destination.zone">
+        <create_position name="$pos" object="$thisship" space="$destination.zone" />
+        <do_if value="$pos.x lt -50km or $pos.x gt 50km or $pos.y lt -50km or $pos.y gt 50km or $pos.z lt -50km or $pos.z gt 50km">
+          <resume label="movetozone" />
+        </do_if>
+        <warp object="$thisship" zone="$destination.zone">
+          <position value="$pos" />
+          <rotation value="$thisship.rotation" />
+        </warp>
+        <wait exact="100ms" />
+        <debug_text text="'CargoTeleportation: %s joined the zone of %s: %s'.[$thisship.debugname, $destination.debugname, this.zone == $destination.zone]" chance="$traceChance" />
+      </do_if>
+
+      <do_if value="$tradedeal.exists and $destination.isoperational and this.zone == $destination.zone">
+        <remove_value name="this.$CargoTeleportationFlagged" />
+        <raise_lua_event name="'CargoTeleportation.Flag'" param="this.ship" />
+        <set_value name="$waits" exact="0" />
+        <do_while value="not this.$CargoTeleportationFlagged? and $waits lt 20">
+          <wait exact="100ms" />
+          <set_value name="$waits" operation="add" />
+        </do_while>
+        <do_if value="@this.$CargoTeleportationFlagged == 1">
+          <remove_value name="this.$CargoTeleportationNoFlag" />
+          <set_value name="this.$CargoTeleportationReady" exact="$tradedeal" />
+        </do_if>
+        <debug_text text="'CargoTeleportation: %s in reach of %s at %s, flag answer %s'.[$thisship.debugname, $destination.debugname, $thisship.bboxdistanceto.{$destination}, @this.$CargoTeleportationFlagged]" chance="$traceChance" />
+        <remove_value name="this.$CargoTeleportationFlagged" />
+        <return />
+      </do_if>
+
+      <label name="giveup" />
+      <debug_text text="'CargoTeleportation: %s not in reach of %s (same zone %s, distance %s, moves %s)'.[$thisship.debugname, @$destination.debugname, this.zone == @$destination.zone, @$thisship.bboxdistanceto.{$destination}, $moves]" chance="$logChance" />
+    </actions>
+  </attention>
+</aiscript>

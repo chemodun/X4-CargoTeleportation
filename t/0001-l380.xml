@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ukrainian -->
+<diff>
+  <add sel="/language">
+    <page id="1972092447" title="Cargo Teleportation" descr="" voice="no">
+      <!-- Section: Debug (90900) -->
+      <t id="90900">Налагодження</t>
+      <t id="90910">Рівень налагодження</t>
+      <t id="90911">Відсутній</t>
+      <t id="90912">Налагодження</t>
+      <t id="90913">Трасування</t>
+    </page>
+  </add>
+</diff>

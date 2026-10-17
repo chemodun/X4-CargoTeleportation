@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="CargoTeleportation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+
+  <cues>
+    <library name="ReadDebugChances" purpose="include_actions">
+      <actions>
+        <set_value name="$ctDebugLevel" exact="if @player.entity.$CargoTeleportationConfig.$debugLevel != null
+          then player.entity.$CargoTeleportationConfig.$debugLevel else 'none'" />
+        <set_value name="$debugChance" exact="if @$ctDebugLevel == null or @$ctDebugLevel == 'none' then 0 else 100" />
+        <set_value name="$traceChance" exact="if @$ctDebugLevel == 'trace' then 100 else 0" />
+        <remove_value name="$ctDebugLevel" />
+      </actions>
+    </library>
+
+    <library name="ClearDebugChances" purpose="include_actions">
+      <actions>
+        <remove_value name="$debugChance" />
+        <remove_value name="$traceChance" />
+      </actions>
+    </library>
+
+    <!-- Ship-to-ship ranges in km; the AI patches read this table directly -->
+    <library name="Ensure_Config" purpose="include_actions">
+      <actions>
+        <set_value name="$cfg" exact="table[
+          $debugLevel = 'none',
+          $enabled = 1,
+          $range1 = 5,
+          $range2 = 15,
+          $range3 = 30,
+          $requestSupplies = 0,
+        ]" />
+        <do_if value="@player.entity.$CargoTeleportationConfig == null">
+          <set_value name="player.entity.$CargoTeleportationConfig" exact="$cfg" />
+        </do_if>
+        <do_else>
+          <do_for_each name="$key" in="$cfg">
+            <do_if value="not player.entity.$CargoTeleportationConfig.{$key}?">
+              <set_value name="player.entity.$CargoTeleportationConfig.{$key}" exact="$cfg.{$key}" />
+            </do_if>
+          </do_for_each>
+        </do_else>
+        <remove_value name="$cfg" />
+      </actions>
+    </library>
+
+    <!-- The research menu lists only researchables known to the player -->
+    <library name="Add_Researchables" purpose="include_actions">
+      <actions>
+        <add_encyclopedia_entry type="researchables" item="'research_cargo_teleportation_range_01'" />
+        <add_encyclopedia_entry type="researchables" item="'research_cargo_teleportation_range_02'" />
+        <add_encyclopedia_entry type="researchables" item="'research_cargo_teleportation_range_03'" />
+        <add_encyclopedia_entry type="researchables" item="'research_cargo_teleportation_stations'" />
+        <add_encyclopedia_entry type="researchables" item="'research_cargo_teleportation_restock'" />
+      </actions>
+    </library>
+
+    <cue name="Init" version="1">
+      <actions>
+        <include_actions ref="Ensure_Config" />
+        <include_actions ref="Add_Researchables" />
+        <raise_lua_event name="'CargoTeleportation.ConfigChanged'" />
+      </actions>
+      <cues>
+
+        <cue name="On_Game_Loaded" instantiate="true" version="1">
+          <conditions>
+            <event_game_loaded />
+          </conditions>
+          <actions>
+            <include_actions ref="Ensure_Config" />
+            <include_actions ref="Add_Researchables" />
+            <raise_lua_event name="'CargoTeleportation.ConfigChanged'" />
+          </actions>
+        </cue>
+
+        <cue name="Register_Menu" instantiate="true" version="1">
+          <conditions>
+            <event_cue_signalled cue="@md.Simple_Menu_API.Reloaded" />
+            <check_value value="@md.Options_Helper.Add_Dropdown.exists" />
+          </conditions>
+          <actions>
+            <signal_cue_instantly cue="md.Simple_Menu_API.Register_Options_Menu"
+              param="table[
+                $id      = 'cargo_teleportation_options_menu',
+                $columns = 12,
+                $title   = {1972092447, 1},
+                $onOpen  = Options_Menu,
+              ]" />
+          </actions>
+        </cue>
+
+        <cue name="Options_Menu" instantiate="true" version="2">
+          <conditions>
+            <event_cue_signalled />
+          </conditions>
+          <actions>
+            <include_actions ref="Ensure_Config" />
+            <set_value name="$cfg" exact="player.entity.$CargoTeleportationConfig" />
+
+            <run_actions ref="md.Options_Helper.Add_Title_Row">
+              <param name="title" value="{1972092447, 90000}" />
+            </run_actions>
+            <run_actions ref="md.Options_Helper.Add_Checkbox">
+              <param name="id" value="'enabled'" />
+              <param name="col" value="1" />
+              <param name="textColSpan" value="11" />
+              <param name="text" value="{1972092447, 90001}" />
+              <param name="data" value="$cfg" />
+              <param name="handle" value="Handle_Checkbox_Changed" />
+            </run_actions>
+            <run_actions ref="md.Options_Helper.Add_Slider">
+              <param name="id" value="'range1'" />
+              <param name="text" value="{1972092447, 90002}" />
+              <param name="min" value="1" />
+              <param name="max" value="50" />
+              <param name="step" value="1" />
+              <param name="suffix" value="' %s'.[{1001, 108}]" />
+              <param name="textColSpan" value="6" />
+              <param name="colSpan" value="6" />
+              <param name="data" value="$cfg" />
+              <param name="handle" value="Handle_Slider_Changed" />
+            </run_actions>
+            <run_actions ref="md.Options_Helper.Add_Slider">
+              <param name="id" value="'range2'" />
+              <param name="text" value="{1972092447, 90003}" />
+              <param name="min" value="1" />
+              <param name="max" value="50" />
+              <param name="step" value="1" />
+              <param name="suffix" value="' %s'.[{1001, 108}]" />
+              <param name="textColSpan" value="6" />
+              <param name="colSpan" value="6" />
+              <param name="data" value="$cfg" />
+              <param name="handle" value="Handle_Slider_Changed" />
+            </run_actions>
+            <run_actions ref="md.Options_Helper.Add_Slider">
+              <param name="id" value="'range3'" />
+              <param name="text" value="{1972092447, 90004}" />
+              <param name="min" value="1" />
+              <param name="max" value="50" />
+              <param name="step" value="1" />
+              <param name="suffix" value="' %s'.[{1001, 108}]" />
+              <param name="textColSpan" value="6" />
+              <param name="colSpan" value="6" />
+              <param name="data" value="$cfg" />
+              <param name="handle" value="Handle_Slider_Changed" />
+            </run_actions>
+            <run_actions ref="md.Options_Helper.Add_Checkbox">
+              <param name="id" value="'requestSupplies'" />
+              <param name="col" value="1" />
+              <param name="textColSpan" value="11" />
+              <param name="text" value="{1972092447, 90005}" />
+              <param name="data" value="$cfg" />
+              <param name="handle" value="Handle_Checkbox_Changed" />
+            </run_actions>
+
+            <run_actions ref="md.Options_Helper.Add_Title_Row">
+              <param name="title" value="{1972092447, 90900}" />
+            </run_actions>
+            <set_value name="$debugLevelOptions" exact="[
+              table[$text = {1972092447, 90911}, $value = 'none'],
+              table[$text = {1972092447, 90912}, $value = 'debug'],
+              table[$text = {1972092447, 90913}, $value = 'trace']
+            ]" />
+            <set_value name="$debugLevelIndexes" exact="['none', 'debug', 'trace']" />
+            <set_value name="$debugLevelCurrentIndex" exact="$debugLevelIndexes.indexof.{@$cfg.$debugLevel}" />
+            <do_if value="$debugLevelCurrentIndex == 0">
+              <set_value name="$debugLevelCurrentIndex" exact="1" />
+            </do_if>
+            <run_actions ref="md.Options_Helper.Add_Dropdown">
+              <param name="id" value="'debugLevel'" />
+              <param name="options" value="$debugLevelOptions" />
+              <param name="currentIndex" value="$debugLevelCurrentIndex" />
+              <param name="col" value="1" />
+              <param name="textColSpan" value="6" />
+              <param name="text" value="{1972092447, 90910}" />
+              <param name="dropdownColSpan" value="6" />
+              <param name="handle" value="Handle_Dropdown_Changed" />
+            </run_actions>
+
+            <remove_value name="$debugLevelOptions" />
+            <remove_value name="$debugLevelIndexes" />
+            <remove_value name="$debugLevelCurrentIndex" />
+            <remove_value name="$cfg" />
+          </actions>
+        </cue>
+
+        <cue name="Handle_Checkbox_Changed" instantiate="true" version="1">
+          <conditions>
+            <event_cue_signalled />
+          </conditions>
+          <actions>
+            <set_value name="$resultTable" exact="player.entity.$CargoTeleportationConfig" />
+            <include_actions ref="md.Options_Helper.Process_Checkbox_Changed" />
+            <remove_value name="$resultTable" />
+            <include_actions ref="ReadDebugChances" />
+            <debug_text text="'CargoTeleportation: Options: %s set to %s'.[event.param.$echo.$valueId, @event.param.$checked]" chance="$debugChance" />
+            <include_actions ref="ClearDebugChances" />
+          </actions>
+        </cue>
+
+        <cue name="Handle_Slider_Changed" instantiate="true" version="1">
+          <conditions>
+            <event_cue_signalled />
+          </conditions>
+          <actions>
+            <set_value name="$resultTable" exact="player.entity.$CargoTeleportationConfig" />
+            <include_actions ref="md.Options_Helper.Process_Slider_Changed" />
+            <remove_value name="$resultTable" />
+            <include_actions ref="ReadDebugChances" />
+            <debug_text text="'CargoTeleportation: Options: %s set to %s'.[event.param.$echo.$valueId, @event.param.$value]" chance="$debugChance" />
+            <include_actions ref="ClearDebugChances" />
+          </actions>
+        </cue>
+
+        <cue name="Handle_Dropdown_Changed" instantiate="true" version="1">
+          <conditions>
+            <event_cue_signalled />
+          </conditions>
+          <actions>
+            <set_value name="$resultTable" exact="player.entity.$CargoTeleportationConfig" />
+            <include_actions ref="md.Options_Helper.Process_Dropdown_Changed" />
+            <remove_value name="$resultTable" />
+            <raise_lua_event name="'CargoTeleportation.ConfigChanged'" />
+            <include_actions ref="ReadDebugChances" />
+            <debug_text text="'CargoTeleportation: Options: %s set to %s'.[event.param.$echo.$valueId, @event.param.$option.$value]" chance="$debugChance" />
+            <include_actions ref="ClearDebugChances" />
+          </actions>
+        </cue>
+
+      </cues>
+    </cue>
+  </cues>
+
+</mdscript>

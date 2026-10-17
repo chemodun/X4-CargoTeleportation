@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Restocks missiles, drones and deployables from an own supply ship without docking: moves into range as the Reach order does, waits the build time, then takes the resources from the supplier's cargo and adds the items. Queued by the patched ResupplyCheck in place of the vanilla build. -->
+<aiscript name="cargo_teleportation.restock" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="aiscripts.xsd" version="1">
+  <order id="CargoTeleportationRestock" name="{1972092447, 103}" description="{1972092447, 104}" category="internal" canplayercancel="true">
+    <params>
+      <param name="supplier" type="object" text="{1041, 10125}" comment="Own supply ship" />
+      <param name="ammo" type="internal" default="null" comment="Ammo target totals, as add_build_to_modify_ship takes them" />
+      <param name="units" type="internal" default="null" comment="Unit target totals, as add_build_to_modify_ship takes them" />
+      <param name="internalorder" type="internal" default="false" comment="Passed into the Reach move for blacklist enforcement" />
+      <param name="debugchance" type="bool" default="0" advanced="true" text="{1041, 10086}" comment="Print debug output">
+        <input_param name="truevalue" value="100" />
+      </param>
+    </params>
+    <requires>
+      <match shiptype="shiptype.lasertower" negate="true" />
+    </requires>
+    <location object="$supplier" condition="$supplier.exists" />
+  </order>
+  <interrupts>
+    <handler>
+      <conditions>
+        <check_any>
+          <event_object_destroyed object="$supplier" check="false" />
+          <event_object_abandoned object="$supplier" check="false" />
+          <event_object_changed_owner object="$supplier" check="false" />
+        </check_any>
+      </conditions>
+      <actions>
+        <debug_text text="'CargoTeleportation: %s stops the restock from %s: %s'.[$thisship.debugname, @$supplier.debugname, event.name]" chance="$logChance" />
+        <abort_called_scripts resume="finish" />
+      </actions>
+    </handler>
+    <handler ref="AttackHandler" />
+    <handler ref="MissileLockHandler" />
+    <handler ref="ScannedHandler" />
+    <handler ref="InspectedHandler" />
+  </interrupts>
+  <init>
+    <set_command command="command.resupply" param="$supplier" />
+    <set_value name="$thisship" exact="this.assignedcontrolled" />
+    <set_value name="$traceChance" exact="if @player.entity.$CargoTeleportationConfig.$debugLevel == 'trace' then 100 else 0" />
+    <set_value name="$logChance" exact="if @player.entity.$CargoTeleportationConfig.$debugLevel == 'debug' or $traceChance == 100 then 100 else 0" />
+  </init>
+  <attention min="unknown">
+    <actions>
+      <do_if value="not $supplier.isoperational or not $supplier.isplayerowned or not $thisship.isplayerowned">
+        <resume label="finish" />
+      </do_if>
+      <set_value name="$range" exact="[$thisship.maxradarrange, $supplier.maxradarrange].min * 0.8" />
+      <run_script name="'cargo_teleportation.reach'" result="$inreach">
+        <param name="tradedeal" value="null" />
+        <param name="destination" value="$supplier" />
+        <param name="range" value="$range" />
+        <param name="internalorder" value="$internalorder" />
+        <param name="debugchance" value="$debugchance" />
+      </run_script>
+      <do_if value="not $inreach">
+        <debug_text text="'CargoTeleportation: %s did not reach %s for the restock'.[$thisship.debugname, $supplier.debugname]" chance="$logChance" />
+        <resume label="finish" />
+      </do_if>
+
+      <set_value name="$ctSupplier" exact="$supplier" />
+      <set_value name="$ctAmmo" exact="$ammo" />
+      <set_value name="$ctUnits" exact="$units" />
+      <include_interrupt_actions ref="CargoTeleportation_CheckSupplies" />
+      <do_if value="$ctShort or not $ctAdd.count">
+        <debug_text text="'CargoTeleportation: %s restock from %s dropped: short %s, items %s'.[$thisship.debugname, $supplier.debugname, $ctShort, $ctAdd]" chance="$logChance" />
+        <resume label="finish" />
+      </do_if>
+
+      <!-- the items' production times, from Lua -->
+      <set_value name="this.$CargoTeleportationRestockQuery" exact="[$supplier, $ctAdd]" />
+      <remove_value name="this.$CargoTeleportationRestockTime" />
+      <raise_lua_event name="'CargoTeleportation.RestockTime'" param="$thisship" />
+      <set_value name="$waits" exact="0" />
+      <do_while value="not this.$CargoTeleportationRestockTime? and $waits lt 20">
+        <wait exact="100ms" />
+        <set_value name="$waits" operation="add" />
+      </do_while>
+      <!-- 5 s plus 1 s per 15 s of production, at most 2 min for XL, 1 min for the rest; 5 s when unknown -->
+      <set_value name="$prodtime" exact="@this.$CargoTeleportationRestockTime" />
+      <set_value name="$maxwait" exact="if $thisship.isclass.ship_xl then 120 else 60" />
+      <set_value name="$buildtime" exact="if $prodtime gt 0 then [[5 + $prodtime / 15.0, $maxwait].min, 5].max * 1s else 5s" />
+      <remove_value name="this.$CargoTeleportationRestockQuery" />
+      <remove_value name="this.$CargoTeleportationRestockTime" />
+      <debug_text text="'CargoTeleportation: %s restocks %s from %s in %s (resources %s)'.[$thisship.debugname, $ctAdd, $supplier.debugname, $buildtime, $ctNeeded]" chance="$logChance" />
+      <wait exact="$buildtime" />
+      <do_if value="not $supplier.isoperational">
+        <resume label="finish" />
+      </do_if>
+      <do_if value="$thisship.bboxdistanceto.{$supplier} gt $range">
+        <!-- the supplier moved off: close in again, the build time already passed -->
+        <run_script name="'cargo_teleportation.reach'" result="$inreach">
+          <param name="tradedeal" value="null" />
+          <param name="destination" value="$supplier" />
+          <param name="range" value="$range" />
+          <param name="internalorder" value="$internalorder" />
+          <param name="debugchance" value="$debugchance" />
+        </run_script>
+        <do_if value="not $inreach">
+          <resume label="finish" />
+        </do_if>
+      </do_if>
+
+      <!-- resources leave the supplier only now, so an order cancelled during the build costs nothing -->
+      <include_interrupt_actions ref="CargoTeleportation_CheckSupplies" />
+      <do_if value="$ctShort or not $ctAdd.count">
+        <debug_text text="'CargoTeleportation: %s restock from %s dropped after the build: short %s, items %s'.[$thisship.debugname, $supplier.debugname, $ctShort, $ctAdd]" chance="$logChance" />
+        <resume label="finish" />
+      </do_if>
+      <do_for_each name="$resware" valuename="$amount" in="$ctNeeded">
+        <remove_cargo object="$supplier" ware="$resware" exact="$amount" />
+      </do_for_each>
+      <do_all exact="$ctAdd.count" counter="$i">
+        <do_if value="$ctAdd.{$i}.{3}">
+          <add_units object="$thisship" macro="$ctAdd.{$i}.{1}" exact="$ctAdd.{$i}.{2}" />
+        </do_if>
+        <do_else>
+          <add_ammo object="$thisship" macro="$ctAdd.{$i}.{1}" amount="$ctAdd.{$i}.{2}" />
+        </do_else>
+      </do_all>
+      <debug_text text="'CargoTeleportation: %s restocked %s from %s'.[$thisship.debugname, $ctAdd, $supplier.debugname]" chance="$logChance" />
+
+      <label name="finish" />
+      <remove_value name="this.$CargoTeleportationRestockQuery" />
+      <remove_value name="this.$CargoTeleportationRestockTime" />
+    </actions>
+  </attention>
+</aiscript>

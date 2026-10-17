@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cargo Teleportation - English text, page 1972092447 -->
+<diff>
+  <add sel="/language">
+    <page id="1972092447" title="Cargo Teleportation" descr="" voice="no">
+      <t id="1">Cargo Teleportation</t>
+      <t id="2">Research projects that let your own ships and stations in the same zone hand over cargo instantly, without docking or drones.</t>
+
+      <!-- Order -->
+      <t id="101">Approach for Cargo Teleportation</t>
+      <t id="102">Moves into the trade partner's zone and range so the cargo can be teleported without docking.</t>
+      <t id="103">Restock by Cargo Teleportation</t>
+      <t id="104">Moves into teleportation range of the supply ship, waits for the build and receives missiles, drones and deployables by cargo teleportation.</t>
+
+      <!-- Research -->
+      <t id="201">Cargo Teleportation - Range I</t>
+      <t id="202">Applies teleportation to freight between ships. Two of your ships exchange cargo without docking, parking or drones when they are in the same zone and no more than 5 km apart.</t>
+      <t id="211">Cargo Teleportation - Range II</t>
+      <t id="212">Extends ship-to-ship cargo teleportation to partners up to 15 km apart in the same zone.</t>
+      <t id="221">Cargo Teleportation - Range III</t>
+      <t id="222">Extends ship-to-ship cargo teleportation to partners up to 30 km apart in the same zone.</t>
+      <t id="231">Cargo Teleportation - Stations</t>
+      <t id="232">Your ships trade with your own stations without docking or drones: the cargo is teleported as soon as the ship is in the station's zone.</t>
+      <t id="241">Cargo Teleportation - Restock</t>
+      <t id="242">Your ships restock missiles, drones and deployables from your own supply ships without docking or parking: the supply ship builds them from its cargo and teleports them over once both ships are within radar range of each other.</t>
+
+      <!-- Section: Cargo Teleportation (90000) -->
+      <t id="90000">Cargo Teleportation</t>
+      <t id="90001">Use cargo teleportation for trades between your own ships and stations</t>
+      <t id="90002">Ship-to-ship range with Range I researched</t>
+      <t id="90003">Ship-to-ship range with Range II researched</t>
+      <t id="90004">Ship-to-ship range with Range III researched</t>
+      <t id="90005">Order '{1041,621}' at once when a supply ship lacks the resources for a restock</t>
+
+      <!-- Section: Debug (90900) -->
+      <t id="90900">Debug</t>
+      <t id="90910">Debug Level</t>
+      <t id="90911">None</t>
+      <t id="90912">Debug</t>
+      <t id="90913">Trace</t>
+    </page>
+  </add>
+</diff>

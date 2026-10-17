@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aiscript name="interrupt.cargo_teleportation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="aiscripts.xsd">
+  <interrupts>
+    <library>
+      <!-- In: $ctSupplier, $ctAmmo, $ctUnits (target totals keyed by ware or macro, as add_build_to_modify_ship takes them).
+           Out: $ctShort; $ctNeeded (resource ware -> amount); $ctAdd (list of [macro, amount, isunit]). Resource amounts are per production run, so the need is an upper bound. -->
+      <actions name="CargoTeleportation_CheckSupplies">
+        <set_value name="$ctShort" exact="false" />
+        <set_value name="$ctNeeded" exact="table[]" />
+        <set_value name="$ctAdd" exact="[]" />
+        <set_value name="$ctTables" exact="[@$ctAmmo, @$ctUnits]" />
+        <do_all exact="2" counter="$ctI">
+          <do_if value="$ctTables.{$ctI}">
+            <do_for_each name="$ctKey" valuename="$ctTarget" in="$ctTables.{$ctI}">
+              <set_value name="$ctMacro" exact="if typeof $ctKey == datatype.macro then $ctKey else @$ctKey.objectmacro" />
+              <set_value name="$ctWare" exact="if typeof $ctKey == datatype.ware then $ctKey else @$ctKey.ware" />
+              <do_if value="$ctMacro and $ctWare">
+                <set_value name="$ctDelta" exact="$ctTarget - (if $ctI == 1 then this.assignedcontrolled.ammostorage.{$ctMacro}.count else this.assignedcontrolled.units.{$ctMacro}.count)" />
+                <do_if value="$ctDelta gt 0">
+                  <append_to_list name="$ctAdd" exact="[$ctMacro, $ctDelta, $ctI == 2]" />
+                  <!-- wareamountlist is a pseudo type: read through it, it cannot be stored -->
+                  <do_all exact="$ctWare.resources.count" counter="$ctJ">
+                    <set_value name="$ctResWare" exact="$ctWare.resources.{$ctJ}" />
+                    <set_value name="$ctNeeded.{$ctResWare}" exact="@$ctNeeded.{$ctResWare} + $ctWare.resources.{$ctResWare}.count * $ctDelta" />
+                  </do_all>
+                </do_if>
+              </do_if>
+            </do_for_each>
+          </do_if>
+        </do_all>
+        <debug_text text="'CargoTeleportation: restock of %s needs %s'.[this.assignedcontrolled.debugname, $ctNeeded]" chance="if @player.entity.$CargoTeleportationConfig.$debugLevel == 'trace' then 100 else 0" />
+        <do_for_each name="$ctResWare" valuename="$ctAmount" in="$ctNeeded">
+          <do_if value="$ctSupplier.cargo.{$ctResWare}.count lt $ctAmount">
+            <set_value name="$ctShort" exact="true" />
+            <break />
+          </do_if>
+        </do_for_each>
+        <remove_value name="$ctTables" />
+        <remove_value name="$ctKey" />
+        <remove_value name="$ctTarget" />
+        <remove_value name="$ctMacro" />
+        <remove_value name="$ctWare" />
+        <remove_value name="$ctDelta" />
+        <remove_value name="$ctResWare" />
+        <remove_value name="$ctAmount" />
+        <remove_value name="$ctI" />
+        <remove_value name="$ctJ" />
+      </actions>
+
+      <!-- Runs in ResupplyCheck right before vanilla adds the restock build, which is skipped when $ctRestocking is true: an own ship restocking from an own supply ship that holds the resources gets the Restock order instead. -->
+      <actions name="CargoTeleportation_Restock">
+        <set_value name="$ctRestocking" exact="false" />
+        <do_if value="this.assignedcontrolled.isplayerowned and @$destination_station_interrupt.isplayerowned and $destination_station_interrupt.isclass.ship and $destination_station_interrupt != this.assignedcontrolled and ware.research_cargo_teleportation_restock.research.unlocked and (@player.entity.$CargoTeleportationConfig.$enabled == 1 or @player.entity.$CargoTeleportationConfig.$enabled == true)">
+          <do_all exact="this.assignedcontrolled.orders.count" counter="$ctI">
+            <do_if value="this.assignedcontrolled.orders.{$ctI}.id == 'CargoTeleportationRestock'">
+              <!-- already on its way: neither a second order nor a vanilla build -->
+              <set_value name="$ctRestocking" exact="true" />
+              <break />
+            </do_if>
+          </do_all>
+          <remove_value name="$ctI" />
+          <do_if value="not $ctRestocking">
+            <set_value name="$ctSupplier" exact="$destination_station_interrupt" />
+            <set_value name="$ctAmmo" exact="@$ammotable_interrupt" />
+            <set_value name="$ctUnits" exact="@$unittable_interrupt" />
+            <include_interrupt_actions ref="CargoTeleportation_CheckSupplies" />
+            <do_if value="not $ctShort and $ctAdd.count">
+              <create_order id="'CargoTeleportationRestock'" object="this.assignedcontrolled" immediate="true">
+                <param name="supplier" value="$ctSupplier" />
+                <param name="ammo" value="$ctAmmo" />
+                <param name="units" value="$ctUnits" />
+                <param name="internalorder" value="@$internalorder_interrupt" />
+                <param name="debugchance" value="@$debugchance_interrupt" />
+              </create_order>
+              <set_value name="$ctRestocking" exact="true" />
+            </do_if>
+            <debug_text text="'CargoTeleportation: %s restock from %s: short %s, items %s, by teleportation %s'.[this.assignedcontrolled.debugname, $ctSupplier.debugname, $ctShort, $ctAdd, $ctRestocking]" chance="if @player.entity.$CargoTeleportationConfig.$debugLevel == 'debug' or @player.entity.$CargoTeleportationConfig.$debugLevel == 'trace' then 100 else 0" />
+            <remove_value name="$ctShort" />
+            <remove_value name="$ctNeeded" />
+            <remove_value name="$ctAdd" />
+            <remove_value name="$ctSupplier" />
+            <remove_value name="$ctAmmo" />
+            <remove_value name="$ctUnits" />
+          </do_if>
+        </do_if>
+      </actions>
+
+      <!-- Runs in ResupplyCheck right after vanilla adds the restock build; independent of research -->
+      <actions name="CargoTeleportation_RequestSupplies">
+        <debug_text text="'CargoTeleportation: restock build %s for %s at %s, request option %s, teleported %s'.[@$build_interrupt, this.assignedcontrolled.debugname, @$destination_station_interrupt.debugname, @player.entity.$CargoTeleportationConfig.$requestSupplies, @$ctRestocking]" chance="if @player.entity.$CargoTeleportationConfig.$debugLevel == 'trace' then 100 else 0" />
+        <do_if value="not @$ctRestocking and (@player.entity.$CargoTeleportationConfig.$requestSupplies == 1 or @player.entity.$CargoTeleportationConfig.$requestSupplies == true) and @$build_interrupt and @$destination_station_interrupt.isplayerowned and $destination_station_interrupt.isclass.ship and $destination_station_interrupt.pilot.exists">
+          <set_value name="$ctSupplier" exact="$destination_station_interrupt" />
+          <set_value name="$ctAmmo" exact="@$ammotable_interrupt" />
+          <set_value name="$ctUnits" exact="@$unittable_interrupt" />
+          <include_interrupt_actions ref="CargoTeleportation_CheckSupplies" />
+          <debug_text text="'CargoTeleportation: %s short %s for units %s ammo %s'.[$ctSupplier.debugname, $ctShort, $ctUnits, $ctAmmo]" chance="if @player.entity.$CargoTeleportationConfig.$debugLevel == 'trace' then 100 else 0" />
+          <do_if value="$ctShort">
+            <set_value name="$ctQueued" exact="false" />
+            <do_all exact="$ctSupplier.orders.count" counter="$ctI">
+              <do_if value="$ctSupplier.orders.{$ctI}.id == 'GetSupplies'">
+                <set_value name="$ctQueued" exact="true" />
+                <break />
+              </do_if>
+            </do_all>
+            <do_if value="not $ctQueued">
+              <create_order id="'GetSupplies'" object="$ctSupplier">
+                <param name="internalorder" value="true" />
+              </create_order>
+            </do_if>
+            <debug_text text="'CargoTeleportation: %s lacks resources to restock %s, GetSupplies %s'.[$ctSupplier.debugname, this.assignedcontrolled.debugname, if $ctQueued then 'already queued' else 'queued']" chance="if @player.entity.$CargoTeleportationConfig.$debugLevel == 'debug' or @player.entity.$CargoTeleportationConfig.$debugLevel == 'trace' then 100 else 0" />
+            <remove_value name="$ctQueued" />
+          </do_if>
+          <remove_value name="$ctShort" />
+          <remove_value name="$ctNeeded" />
+          <remove_value name="$ctAdd" />
+          <remove_value name="$ctSupplier" />
+          <remove_value name="$ctAmmo" />
+          <remove_value name="$ctUnits" />
+          <remove_value name="$ctI" />
+        </do_if>
+      </actions>
+    </library>
+  </interrupts>
+</aiscript>

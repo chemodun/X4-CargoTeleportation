@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+  <add sel="//label[@name='move_to_targetobject']" pos="after">
+    <!-- Cargo Teleportation: a deal the Reach order flagged trades at once; in reach but unflagged, queue the Reach order to flag it; out of reach, vanilla queues DockAndWait, whose patch queues the Reach order instead of docking. No blocking action here, so saves keep their script positions. -->
+    <!-- $ctRange: -1km off, 0km a station partner (any distance in its zone), else the ship-to-ship range -->
+    <set_value name="$ctRange" exact="-1km" />
+    <do_if value="@player.entity.$CargoTeleportationEngine == 1 and (@player.entity.$CargoTeleportationConfig.$enabled == 1 or @player.entity.$CargoTeleportationConfig.$enabled == true) and this.assignedcontrolled.isplayerowned and $targetobject.isplayerowned and (@this.$CargoTeleportationNoFlag != $tradedeal)">
+      <do_if value="not $targetobject.isclass.ship">
+        <do_if value="ware.research_cargo_teleportation_stations.research.unlocked">
+          <set_value name="$ctRange" exact="0km" />
+        </do_if>
+      </do_if>
+      <do_else>
+        <set_value name="$ctCfg" exact="player.entity.$CargoTeleportationConfig" />
+        <do_if value="ware.research_cargo_teleportation_range_03.research.unlocked">
+          <set_value name="$ctRange" exact="$ctCfg.$range3 * 1km" />
+        </do_if>
+        <do_elseif value="ware.research_cargo_teleportation_range_02.research.unlocked">
+          <set_value name="$ctRange" exact="$ctCfg.$range2 * 1km" />
+        </do_elseif>
+        <do_elseif value="ware.research_cargo_teleportation_range_01.research.unlocked">
+          <set_value name="$ctRange" exact="$ctCfg.$range1 * 1km" />
+        </do_elseif>
+        <remove_value name="$ctCfg" />
+      </do_else>
+    </do_if>
+    <do_if value="$ctRange ge 0km and $targetobject.isoperational and not ((this.ship.dock and (this.ship.dock.container == $targetobject) and this.ship.dock.istradingallowed) or (this.ship.parkedat and ((this.ship.parkedat == $targetobject) or this.ship.parkedat.hascontext.{$targetobject})))">
+      <do_if value="@this.$CargoTeleportationReady == $tradedeal">
+        <!-- a mark left from another zone is stale: the Reach order runs again -->
+        <remove_value name="this.$CargoTeleportationReady" />
+        <do_if value="this.zone == $targetobject.zone">
+          <remove_value name="$ctRange" />
+          <resume label="perform_trade" />
+        </do_if>
+      </do_if>
+      <do_if value="this.zone == $targetobject.zone and ($ctRange == 0km or this.assignedcontrolled.bboxdistanceto.{$targetobject} le $ctRange)">
+        <create_order id="'CargoTeleportationReach'" object="this.assignedcontrolled" immediate="true">
+          <param name="tradedeal" value="$tradedeal" />
+          <param name="destination" value="$targetobject" />
+          <param name="range" value="$ctRange" />
+          <param name="internalorder" value="$internalorder" />
+          <param name="debugchance" value="$debugchance" />
+        </create_order>
+        <remove_value name="$ctRange" />
+        <return />
+      </do_if>
+    </do_if>
+    <remove_value name="$ctRange" />
+  </add>
+</diff>

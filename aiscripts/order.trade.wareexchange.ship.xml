@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+  <add sel="//find_dockingbay[@object='$targetobject'][@name='$dock']" pos="before">
+    <!-- Cargo Teleportation: both partners decide alike; the passive one waits as for capital ships, the active one flags the deal -->
+    <set_value name="$ctRange" exact="0km" />
+    <do_if value="@player.entity.$CargoTeleportationEngine == 1 and (@player.entity.$CargoTeleportationConfig.$enabled == 1 or @player.entity.$CargoTeleportationConfig.$enabled == true) and this.assignedcontrolled.isplayerowned and $targetobject.isplayerowned and $targetobject.pilot.exists and this.assignedcontrolled != player.occupiedship and $targetobject != player.occupiedship and ((not this.assignedcontrolled.iscapitalship and not $targetobject.iscapitalship) or this.assignedcontrolled.units.{unitcategory.transport}.count or $targetobject.units.{unitcategory.transport}.count)">
+      <set_value name="$ctCfg" exact="player.entity.$CargoTeleportationConfig" />
+      <do_if value="ware.research_cargo_teleportation_range_03.research.unlocked">
+        <set_value name="$ctRange" exact="$ctCfg.$range3 * 1km" />
+      </do_if>
+      <do_elseif value="ware.research_cargo_teleportation_range_02.research.unlocked">
+        <set_value name="$ctRange" exact="$ctCfg.$range2 * 1km" />
+      </do_elseif>
+      <do_elseif value="ware.research_cargo_teleportation_range_01.research.unlocked">
+        <set_value name="$ctRange" exact="$ctCfg.$range1 * 1km" />
+      </do_elseif>
+      <remove_value name="$ctCfg" />
+    </do_if>
+    <do_if value="$ctRange gt 0km">
+      <do_if value="$ispassive">
+        <remove_value name="$ctRange" />
+        <resume label="passive_trade" />
+      </do_if>
+      <do_if value="(@this.$CargoTeleportationReady == $tradedeal) and this.zone == $targetobject.zone">
+        <remove_value name="this.$CargoTeleportationReady" />
+        <set_value name="this.$readyexchange" exact="[$tradedeal, 1]" />
+        <remove_value name="$ctRange" />
+        <resume label="check_trade" />
+      </do_if>
+      <do_if value="@this.$CargoTeleportationNoFlag != $tradedeal">
+        <!-- the Reach order moves, flags and marks the deal; this order then restarts and continues from the mark -->
+        <create_order id="'CargoTeleportationReach'" object="this.assignedcontrolled" immediate="true">
+          <param name="tradedeal" value="$tradedeal" />
+          <param name="destination" value="$targetobject" />
+          <param name="range" value="$ctRange" />
+          <param name="debugchance" value="$debugchance" />
+        </create_order>
+        <remove_value name="$ctRange" />
+        <return />
+      </do_if>
+      <remove_value name="this.$CargoTeleportationNoFlag" />
+      <remove_value name="$ctRange" />
+      <!-- the passive partner is already waiting at passive_trade: two capitals can still park, smaller pairs cannot drop and collect -->
+      <do_if value="this.assignedcontrolled.iscapitalship and $targetobject.iscapitalship">
+        <resume label="move_to_targetobject" />
+      </do_if>
+      <do_if value="@this.assignedcontrolled.order.isrunning">
+        <set_order_failed order="this.assignedcontrolled.order" text="{1045, 122}" comment="Unable to trade with trade partner." />
+      </do_if>
+      <set_value name="$failreason" exact="'Cargo teleportation failed'" />
+      <resume label="finish" />
+    </do_if>
+    <remove_value name="$ctRange" />
+  </add>
+</diff>

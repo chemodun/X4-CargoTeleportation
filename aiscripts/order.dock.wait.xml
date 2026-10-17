@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+  <add sel="//label[@name='start']" pos="before">
+    <!-- Cargo Teleportation: a trading dock for an own-to-own TradePerform (its caller, or the next order not yet started) queues the Reach order instead of docking; a deal it flagged ends the dock, one it could not flag docks as vanilla does. No blocking action here. -->
+    <set_value name="$ctDeal" exact="null" />
+    <do_if value="$callerid.exists and $callerid.id == 'TradePerform'">
+      <set_value name="$ctDeal" exact="$callerid.$tradedeal" />
+    </do_if>
+    <do_elseif value="not $callerid and (@this.assignedcontrolled.nextorder.id == 'TradePerform') and (this.assignedcontrolled.nextorder.state == orderstate.ready)">
+      <set_value name="$ctDeal" exact="this.assignedcontrolled.nextorder.$tradedeal" />
+    </do_elseif>
+    <do_if value="$trading and @$ctDeal.exists and (($ctDeal.buyer == $destination) or ($ctDeal.seller == $destination))">
+      <do_if value="@this.$CargoTeleportationReady == $ctDeal">
+        <do_if value="this.zone == $destination.zone">
+          <remove_value name="$ctDeal" />
+          <resume label="finish" />
+        </do_if>
+        <!-- stale: TradePerform would queue this order again at once -->
+        <remove_value name="this.$CargoTeleportationReady" />
+        <set_value name="this.$CargoTeleportationStale" exact="if @this.$CargoTeleportationStale.{1} == $ctDeal then [$ctDeal, @this.$CargoTeleportationStale.{2} + 1] else [$ctDeal, 1]" />
+        <do_if value="this.$CargoTeleportationStale.{2} ge 3">
+          <!-- the engine keeps moving the ship back into another zone: dock as vanilla does -->
+          <set_value name="this.$CargoTeleportationNoFlag" exact="$ctDeal" />
+          <remove_value name="this.$CargoTeleportationStale" />
+        </do_if>
+      </do_if>
+      <do_if value="@this.$CargoTeleportationNoFlag == $ctDeal">
+        <remove_value name="this.$CargoTeleportationNoFlag" />
+      </do_if>
+      <do_elseif value="this.assignedcontrolled.isplayerowned and $destination.isplayerowned and (@this.assignedcontrolled.dock.container != $destination) and @player.entity.$CargoTeleportationEngine == 1 and (@player.entity.$CargoTeleportationConfig.$enabled == 1 or @player.entity.$CargoTeleportationConfig.$enabled == true)">
+        <!-- -1km off, 0km a station partner (any distance in its zone), else the ship-to-ship range -->
+        <set_value name="$ctRange" exact="-1km" />
+        <do_if value="not $destination.isclass.ship">
+          <do_if value="ware.research_cargo_teleportation_stations.research.unlocked">
+            <set_value name="$ctRange" exact="0km" />
+          </do_if>
+        </do_if>
+        <do_else>
+          <set_value name="$ctCfg" exact="player.entity.$CargoTeleportationConfig" />
+          <do_if value="ware.research_cargo_teleportation_range_03.research.unlocked">
+            <set_value name="$ctRange" exact="$ctCfg.$range3 * 1km" />
+          </do_if>
+          <do_elseif value="ware.research_cargo_teleportation_range_02.research.unlocked">
+            <set_value name="$ctRange" exact="$ctCfg.$range2 * 1km" />
+          </do_elseif>
+          <do_elseif value="ware.research_cargo_teleportation_range_01.research.unlocked">
+            <set_value name="$ctRange" exact="$ctCfg.$range1 * 1km" />
+          </do_elseif>
+          <remove_value name="$ctCfg" />
+        </do_else>
+        <do_if value="$ctRange ge 0km">
+          <create_order id="'CargoTeleportationReach'" object="this.assignedcontrolled" immediate="true">
+            <param name="tradedeal" value="$ctDeal" />
+            <param name="destination" value="$destination" />
+            <param name="range" value="$ctRange" />
+            <param name="internalorder" value="$internalorder" />
+            <param name="noboost" value="$noboost" />
+            <param name="uselocalhighways" value="$uselocalhighways" />
+            <param name="noattackresponse" value="$noattackresponse" />
+            <param name="debugchance" value="$debugchance" />
+          </create_order>
+          <remove_value name="$ctRange" />
+          <remove_value name="$ctDeal" />
+          <return />
+        </do_if>
+        <remove_value name="$ctRange" />
+      </do_elseif>
+    </do_if>
+    <remove_value name="$ctDeal" />
+  </add>
+</diff>
