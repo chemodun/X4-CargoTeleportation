@@ -4,15 +4,15 @@
     <!-- Cargo Teleportation: a deal the Reach order flagged trades at once; in reach but unflagged, queue the Reach order to flag it; out of reach, vanilla queues DockAndWait, whose patch queues the Reach order instead of docking. No blocking action here, so saves keep their script positions. -->
     <!-- $ctRange: -1km off, 0km a station partner (any distance in its zone), else the ship-to-ship range -->
     <set_value name="$ctRange" exact="-1km" />
-    <do_if value="@player.entity.$CargoTeleportationEngine == 1 and this.assignedcontrolled.isplayerowned and $targetobject.isplayerowned and (@this.$CargoTeleportationNoFlag != $tradedeal)">
-      <!-- each feature needs its research and its option -->
+    <do_if value="@player.entity.$CargoTeleportationEngine == 1 and this.assignedcontrolled.isplayerowned and this.assignedcontrolled.iscapitalship and $targetobject.isplayerowned and (@this.$CargoTeleportationNoFlag != $tradedeal)">
+      <!-- L and XL ships only; each feature needs its research and its option -->
       <set_value name="$ctCfg" exact="player.entity.$CargoTeleportationConfig" />
       <do_if value="not $targetobject.isclass.ship">
         <do_if value="ware.research_cargo_teleportation_stations.research.unlocked and (@$ctCfg.$shipToStation == 1 or @$ctCfg.$shipToStation == true)">
           <set_value name="$ctRange" exact="0km" />
         </do_if>
       </do_if>
-      <do_elseif value="@$ctCfg.$shipToShip == 1 or @$ctCfg.$shipToShip == true">
+      <do_elseif value="$targetobject.iscapitalship and (@$ctCfg.$shipToShip == 1 or @$ctCfg.$shipToShip == true)">
         <do_if value="ware.research_cargo_teleportation_range_03.research.unlocked">
           <set_value name="$ctRange" exact="30km" />
         </do_if>

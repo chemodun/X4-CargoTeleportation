@@ -14,13 +14,13 @@
 
       <!-- Research -->
       <t id="201">Téléportation de cargaison - Portée I</t>
-      <t id="202">Applique la téléportation au fret entre vaisseaux. Deux de vos vaisseaux échangent leur cargaison sans amarrage, stationnement ni drones lorsqu'ils sont dans la même zone et à 5 km au plus l'un de l'autre.</t>
+      <t id="202">Applique la téléportation au fret entre vaisseaux. Deux de vos vaisseaux L ou XL échangent leur cargaison sans amarrage, stationnement ni drones lorsqu'ils sont dans la même zone et à 5 km au plus l'un de l'autre.</t>
       <t id="211">Téléportation de cargaison - Portée II</t>
       <t id="212">Étend la téléportation de cargaison entre vaisseaux aux partenaires distants de 15 km au plus dans la même zone.</t>
       <t id="221">Téléportation de cargaison - Portée III</t>
       <t id="222">Étend la téléportation de cargaison entre vaisseaux aux partenaires distants de 30 km au plus dans la même zone.</t>
       <t id="231">Téléportation de cargaison - Stations</t>
-      <t id="232">Vos vaisseaux commercent avec vos propres stations sans amarrage ni drones : la cargaison est téléportée dès que le vaisseau se trouve dans la zone de la station.</t>
+      <t id="232">Vos vaisseaux L et XL commercent avec vos propres stations sans amarrage ni drones : la cargaison est téléportée dès que le vaisseau se trouve dans la zone de la station.</t>
       <t id="241">Téléportation de cargaison - Réapprovisionnement</t>
       <t id="242">Vos vaisseaux L et XL se réapprovisionnent en missiles, drones et déployables auprès de vos propres vaisseaux de ravitaillement et stations sans amarrage ni stationnement : le fournisseur les fabrique à partir de sa cargaison et les téléporte dès que le vaisseau est dans sa portée radar.</t>
 

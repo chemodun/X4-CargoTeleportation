@@ -14,13 +14,13 @@
 
       <!-- Research -->
       <t id="201">Výměna nákladu teleportací - Dosah I</t>
-      <t id="202">Využívá teleportaci pro přepravu nákladu mezi loděmi. Dvě vaše lodě si vymění náklad bez přistání, parkování či dronů, pokud jsou ve stejné zóně a nejvýše 5 km od sebe.</t>
+      <t id="202">Využívá teleportaci pro přepravu nákladu mezi loděmi. Dvě vaše lodě L nebo XL si vymění náklad bez přistání, parkování či dronů, pokud jsou ve stejné zóně a nejvýše 5 km od sebe.</t>
       <t id="211">Výměna nákladu teleportací - Dosah II</t>
       <t id="212">Rozšiřuje teleportaci nákladu mezi loděmi na partnery vzdálené až 15 km ve stejné zóně.</t>
       <t id="221">Výměna nákladu teleportací - Dosah III</t>
       <t id="222">Rozšiřuje teleportaci nákladu mezi loděmi na partnery vzdálené až 30 km ve stejné zóně.</t>
       <t id="231">Výměna nákladu teleportací - Stanice</t>
-      <t id="232">Vaše lodě obchodují s vašimi stanicemi bez přistání a bez dronů: náklad je teleportován, jakmile je loď v zóně stanice.</t>
+      <t id="232">Vaše lodě L a XL obchodují s vašimi stanicemi bez přistání a bez dronů: náklad je teleportován, jakmile je loď v zóně stanice.</t>
       <t id="241">Výměna nákladu teleportací - Doplnění</t>
       <t id="242">Vaše lodě L a XL doplňují rakety, drony a vybavení z vašich zásobovacích lodí a stanic bez přistání či parkování: dodavatel je vyrobí ze svého nákladu a teleportuje je, jakmile je loď v dosahu jeho radaru.</t>
 

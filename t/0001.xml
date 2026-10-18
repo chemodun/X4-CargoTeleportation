@@ -14,13 +14,13 @@
 
       <!-- Research -->
       <t id="201">Teleportation of Cargo - Range I</t>
-      <t id="202">Applies teleportation to freight between ships. Two of your ships exchange cargo without docking, parking or drones when they are in the same zone and no more than 5 km apart.</t>
+      <t id="202">Applies teleportation to freight between ships. Two of your L or XL ships exchange cargo without docking, parking or drones when they are in the same zone and no more than 5 km apart.</t>
       <t id="211">Teleportation of Cargo - Range II</t>
       <t id="212">Extends ship-to-ship cargo teleportation to partners up to 15 km apart in the same zone.</t>
       <t id="221">Teleportation of Cargo - Range III</t>
       <t id="222">Extends ship-to-ship cargo teleportation to partners up to 30 km apart in the same zone.</t>
       <t id="231">Teleportation of Cargo - Stations</t>
-      <t id="232">Your ships trade with your own stations without docking or drones: the cargo is teleported as soon as the ship is in the station's zone.</t>
+      <t id="232">Your L and XL ships trade with your own stations without docking or drones: the cargo is teleported as soon as the ship is in the station's zone.</t>
       <t id="241">Teleportation of Cargo - Restock</t>
       <t id="242">Your L and XL ships restock missiles, drones and deployables from your own supply ships and stations without docking or parking: the supplier builds them from its cargo and teleports them over once the ship is within radar range of it.</t>
 

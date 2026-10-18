@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <content
-  id="ws_"
+  id="ws_3822127190"
   name="Cargo Teleportation"
   author="Chem O`Dun"
   version="100"
-  date="2026-10-17"
+  date="2026-10-18"
+  enabled="true"
   save="false"
   sync="false"
+  lastupdate="1792316086"
   description="Research projects that let your own ships and stations in the same zone hand over cargo instantly, without docking or drones.">
   <text language="7"
     description="Research projects that let your own ships and stations in the same zone hand over cargo instantly, without docking or drones."></text>

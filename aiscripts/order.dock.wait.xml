@@ -27,8 +27,8 @@
       <do_if value="@this.$CargoTeleportationNoFlag == $ctDeal">
         <remove_value name="this.$CargoTeleportationNoFlag" />
       </do_if>
-      <do_elseif value="this.assignedcontrolled.isplayerowned and $destination.isplayerowned and (@this.assignedcontrolled.dock.container != $destination) and @player.entity.$CargoTeleportationEngine == 1">
-        <!-- -1km off, 0km a station partner (any distance in its zone), else the ship-to-ship range; each feature needs its research and its option -->
+      <do_elseif value="this.assignedcontrolled.isplayerowned and this.assignedcontrolled.iscapitalship and $destination.isplayerowned and (@this.assignedcontrolled.dock.container != $destination) and @player.entity.$CargoTeleportationEngine == 1">
+        <!-- -1km off, 0km a station partner (any distance in its zone), else the ship-to-ship range; L and XL ships only, each feature needs its research and its option -->
         <set_value name="$ctRange" exact="-1km" />
         <set_value name="$ctCfg" exact="player.entity.$CargoTeleportationConfig" />
         <do_if value="not $destination.isclass.ship">
@@ -36,7 +36,7 @@
             <set_value name="$ctRange" exact="0km" />
           </do_if>
         </do_if>
-        <do_elseif value="@$ctCfg.$shipToShip == 1 or @$ctCfg.$shipToShip == true">
+        <do_elseif value="$destination.iscapitalship and (@$ctCfg.$shipToShip == 1 or @$ctCfg.$shipToShip == true)">
           <do_if value="ware.research_cargo_teleportation_range_03.research.unlocked">
             <set_value name="$ctRange" exact="30km" />
           </do_if>

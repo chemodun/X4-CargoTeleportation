@@ -14,13 +14,13 @@
 
       <!-- Research -->
       <t id="201">Teleportacja ładunku - zasięg I</t>
-      <t id="202">Wykorzystuje teleportację do przewozu towarów między statkami. Dwa twoje statki wymieniają ładunek bez dokowania, parkowania i dronów, gdy są w tej samej strefie i nie dalej niż 5 km od siebie.</t>
+      <t id="202">Wykorzystuje teleportację do przewozu towarów między statkami. Dwa twoje statki L lub XL wymieniają ładunek bez dokowania, parkowania i dronów, gdy są w tej samej strefie i nie dalej niż 5 km od siebie.</t>
       <t id="211">Teleportacja ładunku - zasięg II</t>
       <t id="212">Rozszerza teleportację ładunku między statkami na partnerów oddalonych do 15 km w tej samej strefie.</t>
       <t id="221">Teleportacja ładunku - zasięg III</t>
       <t id="222">Rozszerza teleportację ładunku między statkami na partnerów oddalonych do 30 km w tej samej strefie.</t>
       <t id="231">Teleportacja ładunku - stacje</t>
-      <t id="232">Twoje statki handlują z twoimi stacjami bez dokowania i dronów: ładunek jest teleportowany, gdy tylko statek znajdzie się w strefie stacji.</t>
+      <t id="232">Twoje statki L i XL handlują z twoimi stacjami bez dokowania i dronów: ładunek jest teleportowany, gdy tylko statek znajdzie się w strefie stacji.</t>
       <t id="241">Teleportacja ładunku - uzupełnienie</t>
       <t id="242">Twoje statki L i XL uzupełniają rakiety, drony i urządzenia z twoich statków zaopatrzeniowych i stacji bez dokowania i parkowania: dostawca wytwarza je ze swojego ładunku i teleportuje, gdy tylko statek znajdzie się w zasięgu jego radaru.</t>
 
