@@ -1,0 +1,109 @@
+[h1]Cargo Teleportation[/h1]
+
+Capital ships waste minutes queueing for a pier just to hand over cargo to a station you own, and some of your stations have no pier that fits them at all. This extension adds five research projects that extend the teleportation line to freight: your own ships and stations near each other exchange cargo where they are, without docking, and your large ships restock from your own supply ships and stations the same way.
+
+[h2][b]Features[/b][/h2]
+[list]
+[*] [b]Teleportation of Cargo - Range I[/b] research, available after [b]Teleportation - Range II[/b]: a ware exchange between two of your ships happens without docking, parking or dropping containers once they are within 5 km of each other.
+[*] [b]Teleportation of Cargo - Range II[/b] and [b]Range III[/b]: the same up to 15 km and 30 km.
+[*] [b]Teleportation of Cargo - Stations[/b] research, available after [b]Teleportation of Cargo - Range II[/b]: every trade between your own ship and your own station happens without docking as soon as the ship is near enough to the station. Your existing traders and miners use it on their own, with no new orders.
+[*] [b]Teleportation of Cargo - Restock[/b] research, available after [b]Teleportation of Cargo - Range II[/b]: when one of your L or XL ships restocks missiles, drones or deployables from your own supply ship or station, it gets the [b]Restock by Cargo Teleportation[/b] order instead of docking or parking: it moves within radar range of the supplier, waits while the supplier builds the items from its cargo, and receives them by teleportation. The wait is a few seconds plus a fifteenth of the normal build time, at most two minutes for an XL ship and one minute for an L ship.
+[*] [b]No drones needed for the transfer[/b]: the cargo arrives in a few seconds; between two large ships it takes about half a minute.
+[*] [b]Extension Options[/b]: switch ship-to-ship trades, ship-to-station trades and restocks on or off one by one. All three are on by default and each still needs its research; switched off, the feature behaves as if it were not researched. Another option lets a supply ship that lacks the resources for a restock get the [b]Get Supplies[/b] order at once (this one works with or without the research).
+[/list]
+[h2][b]Limitations[/b][/h2]
+[list]
+[*] Only trades in which both sides are yours. Trades with other factions dock as usual.
+[*] Both sides must be near enough to each other for the game to count them in one area, which it calls a zone. Ships fly close to the partner first; for a ware exchange they then close in to the researched range.
+[*] When a large ship takes part, it or its partner still needs at least one cargo drone, as the game requires for any capital ship trade.
+[*] A ware exchange between two ships that cannot complete this way fails with "Unable to trade with trade partner"; two large ships park as usual instead.
+[*] The ship you are piloting yourself is left out.
+[*] A restock by teleportation is for L and XL ships only and needs your own supply ship or station that already holds all the resources for the items; otherwise the game's usual restock runs. The game picks the supplier as usual: an own station only when the restock goes there, for example with the [b]Resupply[/b] order at that station.
+[/list]
+[h2][b]Requirements[/b][/h2]
+[list]
+[*] [b]X4: Foundations[/b]: Version [b]8.00[/b] or higher, Windows version.
+[*] [b]Mod Support APIs[/b]: Version [b]1.95[/b] or higher by [url=https://next.nexusmods.com/profile/sirnukes?gameId=2659]SirNukes[/url].
+[list]
+[*] Available on Steam: [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2042901274]SirNukes Mod Support APIs[/url]
+[*] Available on Nexus Mods: [url=https://www.nexusmods.com/x4foundations/mods/503]Mod Support APIs[/url]
+[/list]
+[*] [b]Options Helper[/b]: Version [b]1.10[/b] or higher by [url=https://next.nexusmods.com/profile/ChemODun/mods?gameId=2659]Chem O`Dun[/url].
+[list]
+[*] Available on Steam: [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3715253556]Options Helper[/url]
+[*] Available on Nexus Mods: [url=https://www.nexusmods.com/x4foundations/mods/2155]Options Helper[/url]
+[/list]
+[*] [b]Print Extension List[/b]: Version [b]1.00[/b] or higher by [url=https://next.nexusmods.com/profile/ChemODun/mods?gameId=2659]Chem O`Dun[/url].
+[list]
+[*] Available on Steam: [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3770927339]Print Extension List[/url]
+[*] Available on Nexus Mods: [url=https://www.nexusmods.com/x4foundations/mods/2191]Print Extension List[/url]
+[/list]
+[/list]
+[h2][b]Installation[/b][/h2]
+
+You can download the latest version via Steam client - [url=https://steamcommunity.com/sharedfiles/filedetails/?id=]Cargo Teleportation[/url]
+Or you can do it via the Nexus Mods - [url=https://www.nexusmods.com/x4foundations/mods/]Cargo Teleportation[/url]
+
+[h2][b]Save state[/b][/h2]
+
+[b]No[/b] (removing the extension does not break saves).
+
+[h2][b]Usage[/b][/h2]
+
+Research [b]Teleportation - Range II[/b] at your headquarters, then [b]Teleportation of Cargo - Range I[/b]. From then on a ware exchange between two of your ships uses it on its own: one ship holds its position, the other comes into range and the cargo changes hands.
+
+[img]https://raw.githubusercontent.com/chemodun/X4-CargoTeleportation/refs/heads/main/docs/images/research_range_01.png[/img]
+
+[b]Range II[/b] and [b]Range III[/b] extend it to partners up to 15 km and 30 km apart.
+
+[img]https://raw.githubusercontent.com/chemodun/X4-CargoTeleportation/refs/heads/main/docs/images/research_range_02.png[/img]
+
+[img]https://raw.githubusercontent.com/chemodun/X4-CargoTeleportation/refs/heads/main/docs/images/research_range_03.png[/img]
+
+After [b]Range II[/b], research [b]Teleportation of Cargo - Stations[/b]: every trade order between your own ship and your own station then uses it too: the ship flies near enough to the station and the cargo changes hands there.
+
+[img]https://raw.githubusercontent.com/chemodun/X4-CargoTeleportation/refs/heads/main/docs/images/research_stations.png[/img]
+
+The pilot adds the [b]Approach for Cargo Teleportation[/b] order on its own in front of the trade, so the order queue shows where the ship is heading:
+
+[img]https://raw.githubusercontent.com/chemodun/X4-CargoTeleportation/refs/heads/main/docs/images/order_queue_miner.png[/img]
+
+[img]https://raw.githubusercontent.com/chemodun/X4-CargoTeleportation/refs/heads/main/docs/images/order_queue_trader.png[/img]
+
+On the map the ship flies only near enough to its partner, not to a dock:
+
+[img]https://raw.githubusercontent.com/chemodun/X4-CargoTeleportation/refs/heads/main/docs/images/map_approach.png[/img]
+
+Once it is near enough, the ship runs its trade from where it is and the cargo is teleported:
+
+[img]https://raw.githubusercontent.com/chemodun/X4-CargoTeleportation/refs/heads/main/docs/images/map_trade.png[/img]
+
+Research [b]Teleportation of Cargo - Restock[/b] after [b]Range II[/b] as well, and your L and XL ships that restock from your own supply ship or station stay in open space: the supplier builds the missiles, drones and deployables and teleports them over. When something prevents it, the ship docks or parks as usual.
+
+[img]https://raw.githubusercontent.com/chemodun/X4-CargoTeleportation/refs/heads/main/docs/images/research_restock.png[/img]
+
+[h2][b]Options[/b][/h2]
+
+An options page is available via the [b]Extension Options[/b] menu:
+
+[img]https://raw.githubusercontent.com/chemodun/X4-CargoTeleportation/refs/heads/main/docs/images/options.png[/img]
+
+[h2][b]Credits[/b][/h2]
+[list]
+[*] Author: Chem O`Dun, on [url=https://next.nexusmods.com/profile/ChemODun/mods?gameId=2659]Nexus Mods[/url] and [url=https://steamcommunity.com/id/chemodun/myworkshopfiles/?appid=392160]Steam Workshop[/url]
+[*] [i]"X4: Foundations"[/i] is a trademark of [url=https://www.egosoft.com]Egosoft[/url].
+[/list]
+[h2][b]Acknowledgements[/b][/h2]
+[list]
+[*] [url=https://www.egosoft.com]EGOSOFT[/url] - for the X series.
+[*] [url=https://next.nexusmods.com/profile/sirnukes?gameId=2659]SirNukes[/url] - for the Mod Support APIs that power the UI hooks.
+[/list]
+[h2][b]Changelog[/b][/h2]
+
+[h2][1.00] - 2026-10-17[/h2]
+[list]
+[*] [b]Added[/b]
+[list]
+[*] Initial public version
+[/list]
+[/list]
